@@ -1,0 +1,251 @@
+body {
+  background-color: #e2e6ec;
+}
+
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+main {
+  height: calc(100vh - 70px);
+  background-color: #e2e6ec;
+}
+
+.btn-primary {
+  border-radius: 4px !important;
+  background-color: #fff;
+  border: 0;
+  padding: 4px 24px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #e9e9e9;
+}
+
+.btn-primary:active {
+  opacity: 0.8;
+}
+
+select {
+  padding: 4px;
+  border-radius: 4px;
+}
+
+a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/*Navbar*/
+
+nav {
+  height: 70px;
+  background-color: #649129;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 0px 32px;
+}
+
+nav > h3 {
+  font-weight: 600;
+}
+
+/*Generator*/
+
+.generator-container {
+  width: 400px;
+  min-height: 400px;
+}
+
+.card-container {
+  border-radius: 8px;
+  padding: 32px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.generator {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/*-----EFFECTS-----*/
+
+/*Loader*/
+
+.rotate-loader,
+.rotate-loader-xl {
+  border: 3px solid #00000020;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border-bottom-color: transparent;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotate 1s linear infinite;
+}
+
+.rotate-loader-xl {
+  width: 28px;
+  height: 28px;
+  border: 4px solid #5758bb50;
+  border-bottom-color: transparent;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  margin: auto;
+  width: 60px;
+  height: 36px;
+}
+
+.spinner > div {
+  background: #000;
+  height: 100%;
+  width: 5px;
+  float: left;
+  margin: 0 1px;
+  animation: stretch 2s infinite;
+  animation-timing-function: cubic-bezier(0.62, 0.28, 0.23, 0.99);
+}
+
+.spinner .r1 {
+  animation-delay: -1s;
+}
+
+.spinner .r2 {
+  animation-delay: -0.9s;
+}
+
+.spinner .r3 {
+  animation-delay: -0.8s;
+}
+
+.spinner .r4 {
+  animation-delay: -0.7s;
+}
+
+.spinner .r5 {
+  animation-delay: -0.6s;
+}
+
+@keyframes stretch {
+  0%,
+  20%,
+  49% {
+    transform: scaleY(0.4);
+    background-color: #000;
+  }
+
+  10% {
+    transform: scaleY(1);
+  }
+
+  50%,
+  70%,
+  100% {
+    transform: scaleY(0.4);
+    background-color: #649129;
+  }
+
+  60% {
+    transform: scaleY(1);
+    background-color: #649129;
+  }
+}
+
+.fade-in-from-left {
+  opacity: 0;
+  transform: translateX(-16px);
+  animation: fadeInLeft 1s ease forwards;
+}
+
+@keyframes fadeInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/*---*/
+
+/*
+usage
+<div class="animation">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+*/
+.animation {
+  height: 95px;
+  display: flex;
+  transform: rotate(180deg);
+}
+.animation span {
+  width: 38px;
+  margin: 0 2px;
+  border-radius: 6px;
+  /* background-color: #fff; */
+  animation: loader 2s infinite;
+}
+@keyframes loader {
+  0%,
+  100% {
+    height: 15px;
+    background: #000;
+  }
+  25% {
+    height: 95px;
+    background: #000;
+  }
+  50% {
+    height: 50px;
+    background: #000;
+  }
+  75% {
+    height: 95px;
+    background: #000;
+  }
+}
+.animation span:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.animation span:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.animation span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.animation span:nth-child(4) {
+  animation-delay: 0.8s;
+}
+.animation span:nth-child(5) {
+  animation-delay: 1s;
+}

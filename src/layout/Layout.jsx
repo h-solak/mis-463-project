@@ -11,7 +11,9 @@ const Layout = ({ children }) => {
           height: 70,
         }}
       >
-        <h3 onClick={() => navigate("/")}>Emayesify</h3>
+        <h3 onClick={() => navigate("/")}>
+          Zortify<span className="ms-1 fs-6">v1</span>
+        </h3>
       </nav>
       <div>{children}</div>
     </div>

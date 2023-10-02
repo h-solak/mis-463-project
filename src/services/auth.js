@@ -3,7 +3,8 @@ import toast from "react-hot-toast";
 import { baseAxios } from "../api/axiosConfig";
 
 const CLIENT_ID = "a7190502be9547ff9a5fb3b916e3bcec";
-const REDIRECT_URL = "http://localhost:5173";
+const REDIRECT_URL =
+  "https://frolicking-dolphin-81d134.netlify.app/" || "http://localhost:5173";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SPOTIFY_AUTH_LINK = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}`;

@@ -31,21 +31,18 @@ const Generator = () => {
                 </p>
               </div>
               <div className="form-item">
-                <h6 className="m-0">Your GPA</h6>
+                <h6 className="m-0">Why do you want a playlist for?</h6>
                 <select className="w-100">
-                  <option>10</option>
-                  <option>20</option>
-                  <option>30</option>
+                  <option>Just for fun</option>
+                  <option>My cafe</option>
+                  <option>Bla Bla</option>
                 </select>
               </div>
               <div className="form-item">
-                <h6 className="m-0">
-                  How many emayes professors you've killed so far?
-                </h6>
+                <h6 className="m-0">Do you love indie music?</h6>
                 <select className="w-100">
-                  <option>0-3</option>
-                  <option>3-6</option>
-                  <option>6-10</option>
+                  <option>Yes</option>
+                  <option>I am a terrorist</option>
                 </select>
               </div>
               <Button variant="contained">Submit</Button>

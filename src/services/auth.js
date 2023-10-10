@@ -1,17 +1,42 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { baseAxios } from "../api/axiosConfig";
+import { baseAxios, removeAccessToken } from "../api/axiosConfig";
 
 const CLIENT_ID = "a7190502be9547ff9a5fb3b916e3bcec";
-const REDIRECT_URL = "https://frolicking-dolphin-81d134.netlify.app";
-//|| "http://localhost:5173"
+// const REDIRECT_URL = "https://frolicking-dolphin-81d134.netlify.app";
+const REDIRECT_URL = "http://localhost:5173";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
-const SPOTIFY_AUTH_LINK = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}`;
+const SPOTIFY_AUTH_LINK = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}&scope=playlist-modify-public`;
 
 const getCrrUser = async () => {
   try {
     const res = await baseAxios.get("/me");
+    return res.data;
+  } catch (err) {
+    // toast.error(err.response.data.error.message); --> access token has expired.. showing this error is unnecessary
+    removeAccessToken();
+    return {};
+  }
+};
+
+const getPlaylists = async (user_id) => {
+  try {
+    const res = await baseAxios.get(`/users/${user_id}/playlists`);
+    return res.data;
+  } catch (err) {
+    toast.error(err.response.data.error.message);
+    return {};
+  }
+};
+
+const createPlaylist = async (user_id, name, description, isPublic) => {
+  try {
+    const res = await baseAxios.post(`/users/${user_id}/playlists`, {
+      name: name,
+      description: description,
+      public: isPublic,
+    });
     return res.data;
   } catch (err) {
     toast.error(err.response.data.error.message);
@@ -20,7 +45,7 @@ const getCrrUser = async () => {
 };
 
 /*
-sample response type
+getUser response type
 {
   "display_name" : "britisheep",
   "external_urls" : {
@@ -47,4 +72,4 @@ sample response type
 
 */
 
-export { SPOTIFY_AUTH_LINK, getCrrUser };
+export { SPOTIFY_AUTH_LINK, getCrrUser, getPlaylists, createPlaylist };

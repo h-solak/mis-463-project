@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 import UserProvider from "./contexts/user/UserProvider";
 import { Toaster } from "react-hot-toast";
+import Shuffle from "./pages/Shuffle/Shuffle";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,7 +20,12 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route key="home" path="/" element={<Home />}></Route>
-            <Route key="home" path="/generator" element={<Generator />}></Route>
+            <Route
+              key="generator"
+              path="/generator"
+              element={<Generator />}
+            ></Route>
+            <Route key="shuffle" path="/shuffle" element={<Shuffle />}></Route>
             <Route key="notFound" path="*" element={<NotFound />}></Route>
           </Routes>
         </BrowserRouter>

@@ -10,7 +10,7 @@ body {
 }
 
 main {
-  height: calc(100vh - 70px);
+  min-height: calc(100vh - 70px);
   background-color: #e2e6ec;
 }
 
@@ -40,6 +40,36 @@ select {
 a {
   color: inherit !important;
   text-decoration: none !important;
+}
+
+.default-hvr:hover {
+  opacity: 0.9;
+  background-color: #d1d1d150;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0 !important;
+}
+
+progress {
+  border-radius: 3px;
+  height: 12px;
+  margin-left: -11.5%;
+}
+progress::-webkit-progress-bar {
+  background-color: #333333;
+  border-radius: 7px;
+}
+progress::-webkit-progress-value {
+  background-color: #649129;
+  border-radius: 7px;
+  /* box-shadow: 1px 1px 5px 3px rgba(255, 0, 0, 0.8); */
 }
 
 /*Navbar*/

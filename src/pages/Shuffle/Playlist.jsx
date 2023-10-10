@@ -7,11 +7,14 @@ import {
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { getRandomNum } from "../../utils/getRandomNum";
 import toast from "react-hot-toast";
+import ConfirmDialogModal from "../../components/ConfirmDialogModal";
+
 const Playlist = ({ playlist }) => {
   const [progress, setProgress] = useState({
     isShuffling: false,
     progress: 0,
   });
+  const [confirmShuffleModal, setConfirmShuffleModal] = useState(false);
 
   const getPlaylist = async (id) => {
     const res = await getPlaylistTracks(id);
@@ -72,7 +75,7 @@ const Playlist = ({ playlist }) => {
             } else if (playlist?.owner?.id === "spotify") {
               toast.error("You don't own that playlist, sorry :(");
             } else {
-              shuffle(playlist?.id, playlist?.name);
+              setConfirmShuffleModal(true);
             }
           }}
           disabled={progress.isShuffling ? true : false}
@@ -110,6 +113,13 @@ const Playlist = ({ playlist }) => {
           </Box>
         </Box>
       )}
+      <ConfirmDialogModal
+        isModalOpen={confirmShuffleModal}
+        setIsModalOpen={setConfirmShuffleModal}
+        question={"The playlist will be shuffled"}
+        action={() => shuffle(playlist?.id, playlist?.name)}
+        icon={<ShuffleIcon color="#000" sx={{ fontSize: 90 }} />}
+      />
     </Box>
   );
 };

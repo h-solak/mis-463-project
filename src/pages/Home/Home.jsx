@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../../layout/Layout";
 import {
   SPOTIFY_AUTH_LINK,
+  createRandomPlaylist,
   getCrrUser,
   getPlaylists,
-} from "../../services/auth";
+} from "../../services/user";
 import useUser from "../../contexts/user/useUser";
 import Loader from "../../components/Loader";
-import { Box, Button, Link } from "@mui/material";
+import { Box, Button, Grid, Link, Tooltip } from "@mui/material";
 import { setAccessToken } from "../../api/axiosConfig";
 import Playlist from "./Playlist";
 
@@ -52,15 +53,27 @@ const Home = () => {
           </div>
           {user?.playlists ? (
             <div className="card-container mt-5" style={{ width: 600 }}>
-              <Button variant="contained">Create Playlist</Button>
+              <Tooltip title="New playlist with 30 random songs">
+                <Button
+                  variant="contained"
+                  onClick={() =>
+                    createRandomPlaylist(user?.id, "Zortify Random Playlist")
+                  }
+                >
+                  Create Random Playlist
+                </Button>
+              </Tooltip>
               <h6 className="text-secondary pt-3">
                 Your playlists ({user?.playlists?.total})
               </h6>
-              <div className="d-flex flex-column align-items-start mt-4">
+              <Grid
+                container
+                className="d-flex flex-column align-items-start mt-4"
+              >
                 {user?.playlists?.items.map((playlist, index) => (
                   <Playlist playlist={playlist} key={index} />
                 ))}
-              </div>
+              </Grid>
             </div>
           ) : null}
         </>

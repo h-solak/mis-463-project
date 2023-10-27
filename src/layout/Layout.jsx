@@ -2,11 +2,12 @@ import { Box, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from "../contexts/user/useUser";
-import { SPOTIFY_AUTH_LINK, getCrrUser, getPlaylists } from "../services/auth";
+import { SPOTIFY_AUTH_LINK, getCrrUser, getPlaylists } from "../services/user";
 import { setAccessToken } from "../api/axiosConfig";
 import Loader from "../components/Loader";
 import Landing from "../components/Landing";
 import LogoutIcon from "@mui/icons-material/Logout";
+import Logo from "../assets/logo.svg";
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ const Layout = ({ children }) => {
         }}
       >
         <h3 onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+          <img src={Logo} width="50" alt="" />
           Zortify<span className="ms-1 fs-6">v1</span>
         </h3>
         {isLoading ? null : user?.id ? (

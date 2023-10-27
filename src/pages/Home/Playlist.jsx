@@ -1,9 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React from "react";
 
 const Playlist = ({ playlist }) => {
   return (
-    <Box
+    <Grid
+      item
       paddingX={1}
       paddingY={1}
       onClick={() => {
@@ -14,7 +15,12 @@ const Playlist = ({ playlist }) => {
     >
       <Box display={"flex"} alignItems={"center"} gap={2}>
         {playlist?.images ? (
-          <img src={playlist.images[0].url} width={70} height={70} alt="" />
+          <img
+            src={playlist?.images[0]?.url || "https://cataas.com/cat"}
+            width={70}
+            height={70}
+            alt=""
+          />
         ) : null}
         <div className="d-flex flex-column">
           <h6>{playlist.name}</h6>
@@ -28,7 +34,7 @@ const Playlist = ({ playlist }) => {
           </h6>
         </div>
       </Box>
-    </Box>
+    </Grid>
   );
 };
 

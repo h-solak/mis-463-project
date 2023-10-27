@@ -1,5 +1,5 @@
 import React from "react";
-import { SPOTIFY_AUTH_LINK } from "../services/auth";
+import { SPOTIFY_AUTH_LINK } from "../services/user";
 import { Box } from "@mui/material";
 
 const Landing = () => {

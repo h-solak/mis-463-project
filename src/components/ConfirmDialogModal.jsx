@@ -31,10 +31,12 @@ const ConfirmDialogModal = ({
           flexDirection={"column"}
           gap={2}
         >
-          <Typography fontSize={18} fontWeight={500}>
+          <Typography fontSize={18} fontWeight={500} textAlign={"center"}>
             {question}
           </Typography>
-          <Typography className="text-secondary">Are you sure?</Typography>
+          <Typography className="text-secondary" textAlign={"center"}>
+            Are you sure?
+          </Typography>
         </Box>
         <Box
           display={"flex"}

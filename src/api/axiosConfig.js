@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseAxios = axios.create({
+const spotifyApiBaseAxios = axios.create({
   baseURL: "https://api.spotify.com/v1/",
   headers: {
     "Content-Type": "application/json",
@@ -8,10 +8,19 @@ const baseAxios = axios.create({
   },
 });
 
+const projectApiBaseAxios = axios.create({
+  baseURL: "http://localhost:8800/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 const setAccessToken = (token) => {
   if (token) {
     localStorage.setItem("mis-463-token", token);
-    baseAxios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    spotifyApiBaseAxios.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${token}`;
   } else {
     removeAccessToken();
   }
@@ -19,7 +28,7 @@ const setAccessToken = (token) => {
 
 const removeAccessToken = () => {
   localStorage.removeItem("mis-463-token");
-  delete baseAxios.defaults.headers.common["Authorization"];
+  delete spotifyApiBaseAxios.defaults.headers.common["Authorization"];
 };
 
 const accessToken = localStorage.getItem("mis-463-token");
@@ -28,4 +37,9 @@ if (accessToken) {
   setAccessToken(accessToken);
 }
 
-export { baseAxios, setAccessToken, removeAccessToken };
+export {
+  spotifyApiBaseAxios,
+  projectApiBaseAxios,
+  setAccessToken,
+  removeAccessToken,
+};

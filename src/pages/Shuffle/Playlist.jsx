@@ -53,54 +53,63 @@ const Playlist = ({ playlist }) => {
 
   useEffect(() => console.log(progress.progress), [progress]);
   return (
-    <Box
-      paddingX={1}
-      paddingY={1}
-      display={"flex"}
-      alignItems={"center"}
-      gap={2}
-      className="w-100"
-      sx={{ cursor: "pointer" }}
-    >
-      <Tooltip title="Shuffle">
-        <Button
-          variant="contained"
-          color="info"
-          sx={{ height: 45 }}
-          onClick={() => {
-            if (playlist?.tracks?.total > 100) {
-              toast.error(
-                "That playlist is waaay bigger than we expected.. 🥵🥵😳"
-              );
-            } else if (playlist?.owner?.id === "spotify") {
-              toast.error("You don't own that playlist, sorry :(");
-            } else {
-              setConfirmShuffleModal(true);
-            }
-          }}
-          disabled={progress.isShuffling ? true : false}
-        >
-          <ShuffleIcon sx={{ fontSize: 20 }} />
-        </Button>
-      </Tooltip>
+    <>
+      <Box
+        paddingX={1}
+        paddingY={1}
+        display={"flex"}
+        alignItems={"center"}
+        gap={2}
+        className="w-100"
+        sx={{ cursor: "pointer" }}
+      >
+        <Tooltip title="Shuffle">
+          <Button
+            variant="contained"
+            color="info"
+            sx={{ height: 45 }}
+            onClick={() => {
+              if (playlist?.tracks?.total > 100) {
+                toast.error(
+                  "That playlist is waaay bigger than we expected.. 🥵🥵😳"
+                );
+              } else if (playlist?.owner?.id === "spotify") {
+                toast.error("You don't own that playlist, sorry :(");
+              } else {
+                setConfirmShuffleModal(true);
+              }
+            }}
+            disabled={progress.isShuffling ? true : false}
+          >
+            <ShuffleIcon sx={{ fontSize: 20 }} />
+          </Button>
+        </Tooltip>
 
-      <Box display={"flex"} alignItems={"center"} gap={2}>
-        {playlist?.images ? (
-          <img src={playlist?.images[0]?.url} width={45} height={45} alt="" />
-        ) : null}
-        <div className="d-flex flex-column">
-          <h6>{playlist?.name}</h6>
-          {playlist?.description ? (
+        <Box display={"flex"} alignItems={"center"} gap={2}>
+          {playlist?.images ? (
+            <img src={playlist?.images[0]?.url} width={45} height={45} alt="" />
+          ) : null}
+          <div className="d-flex flex-column">
+            <h6>{playlist?.name}</h6>
+            {/* {playlist?.description ? (
             <h6 className="text-secondary" style={{ fontSize: 10 }}>
               {playlist?.description}
             </h6>
-          ) : null}
-          <h6 className="text-secondary" style={{ fontSize: 14 }}>
-            {playlist?.tracks?.total} tracks
-          </h6>
-        </div>
-      </Box>
+          ) : null} */}
+            <h6 className="text-secondary" style={{ fontSize: 14 }}>
+              {playlist?.tracks?.total} tracks
+            </h6>
+          </div>
+        </Box>
 
+        <ConfirmDialogModal
+          isModalOpen={confirmShuffleModal}
+          setIsModalOpen={setConfirmShuffleModal}
+          question={"The playlist will be shuffled"}
+          action={() => shuffle(playlist?.id, playlist?.name)}
+          icon={<ShuffleIcon color="#000" sx={{ fontSize: 90 }} />}
+        />
+      </Box>
       {progress.isShuffling && (
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 4 }}>
           <Box sx={{ width: "100%" }}>
@@ -113,14 +122,7 @@ const Playlist = ({ playlist }) => {
           </Box>
         </Box>
       )}
-      <ConfirmDialogModal
-        isModalOpen={confirmShuffleModal}
-        setIsModalOpen={setConfirmShuffleModal}
-        question={"The playlist will be shuffled"}
-        action={() => shuffle(playlist?.id, playlist?.name)}
-        icon={<ShuffleIcon color="#000" sx={{ fontSize: 90 }} />}
-      />
-    </Box>
+    </>
   );
 };
 

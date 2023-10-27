@@ -47,7 +47,7 @@ const createRandomPlaylist = async (user_id, name, description) => {
     randomSongs?.map((item) => uris?.push(`spotify:track:${item.track_id}`));
     await addItemsToPlaylist(playlistId, uris);
 
-    toast.success("New random ");
+    toast.success("New random playlist created!");
   } catch (err) {
     toast.error(err?.response?.data?.error?.message || "Error!!!");
     return {};

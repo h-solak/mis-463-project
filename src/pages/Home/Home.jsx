@@ -15,8 +15,16 @@ import Playlist from "./Playlist";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
 
+  const handleCreateRandomPlaylist = async () => {
+    await createRandomPlaylist(user?.id, "Zortify Random Playlist");
+    const playlists = await getPlaylists(user?.id);
+    setUser({
+      ...user,
+      playlists: playlists,
+    });
+  };
   return (
     <Layout>
       <main className="p-4">
@@ -56,9 +64,7 @@ const Home = () => {
               <Tooltip title="New playlist with 30 random songs">
                 <Button
                   variant="contained"
-                  onClick={() =>
-                    createRandomPlaylist(user?.id, "Zortify Random Playlist")
-                  }
+                  onClick={() => handleCreateRandomPlaylist()}
                 >
                   Create Random Playlist
                 </Button>

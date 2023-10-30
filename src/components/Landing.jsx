@@ -11,7 +11,7 @@ const Landing = () => {
         alignItems={"center"}
         className="absolute-center"
       >
-        <h3>Welcome to Zortify!</h3>
+        <h3>Welcome to TuneMix!</h3>
         <a className="btn-primary" href={SPOTIFY_AUTH_LINK}>
           Login to Spotify
         </a>

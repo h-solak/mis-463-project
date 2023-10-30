@@ -18,7 +18,7 @@ const Home = () => {
   const { user, setUser } = useUser();
 
   const handleCreateRandomPlaylist = async () => {
-    await createRandomPlaylist(user?.id, "Zortify Random Playlist");
+    await createRandomPlaylist(user?.id, "TuneMix Random Playlist");
     const playlists = await getPlaylists(user?.id);
     setUser({
       ...user,

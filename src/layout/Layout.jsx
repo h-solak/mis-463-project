@@ -72,7 +72,7 @@ const Layout = ({ children }) => {
       >
         <h3 onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
           <img src={Logo} width="50" alt="" />
-          Zortify<span className="ms-1 fs-6">v1</span>
+          TuneMix<span className="ms-1 fs-6">v1</span>
         </h3>
         {isLoading ? null : user?.id ? (
           <Box display={"flex"} alignItems={"center"} gap={1}>

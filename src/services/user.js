@@ -34,6 +34,10 @@ const getPlaylists = async (user_id) => {
 
 const createRandomPlaylist = async (user_id, name, description) => {
   try {
+    let uris = [];
+    const randomSongs = await getRandomSongs();
+    randomSongs?.map((item) => uris?.push(`spotify:track:${item.track_id}`));
+
     const newPlaylist = await spotifyApiBaseAxios.post(
       `/users/${user_id}/playlists`,
       {
@@ -42,9 +46,6 @@ const createRandomPlaylist = async (user_id, name, description) => {
       }
     );
     const playlistId = newPlaylist?.data?.id;
-    let uris = [];
-    const randomSongs = await getRandomSongs();
-    randomSongs?.map((item) => uris?.push(`spotify:track:${item.track_id}`));
     await addItemsToPlaylist(playlistId, uris);
 
     toast.success("New random playlist created!");

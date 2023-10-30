@@ -9,7 +9,8 @@ const spotifyApiBaseAxios = axios.create({
 });
 
 const projectApiBaseAxios = axios.create({
-  baseURL: "http://localhost:8800/api",
+  baseURL:
+    "https://tunemix-backend.onrender.com/api" || "http://localhost:8800/api",
   headers: {
     "Content-Type": "application/json",
   },

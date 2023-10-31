@@ -57,6 +57,21 @@ const Home = () => {
               >
                 Shuffle Playlists
               </Button>
+              <Button
+                variant="contained"
+                className=""
+                color="inherit"
+                sx={{
+                  backgroundColor: "#e0ad04",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "#a88205",
+                  },
+                }}
+                onClick={() => navigate("/playlist-analyzer")}
+              >
+                Analyze Playlists
+              </Button>
             </div>
           </div>
           {user?.playlists ? (

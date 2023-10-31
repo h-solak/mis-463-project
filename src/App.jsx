@@ -9,6 +9,7 @@ import theme from "../theme";
 import UserProvider from "./contexts/user/UserProvider";
 import { Toaster } from "react-hot-toast";
 import Shuffle from "./pages/Shuffle/Shuffle";
+import Analyzer from "./pages/Analyzer/Analyzer";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -26,6 +27,11 @@ function App() {
               element={<Generator />}
             ></Route>
             <Route key="shuffle" path="/shuffle" element={<Shuffle />}></Route>
+            <Route
+              key="playlist-analyzer"
+              path="/playlist-analyzer"
+              element={<Analyzer />}
+            ></Route>
             <Route key="notFound" path="*" element={<NotFound />}></Route>
           </Routes>
         </BrowserRouter>

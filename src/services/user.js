@@ -5,7 +5,7 @@ import { addItemsToPlaylist } from "./tracks";
 import { getRandomSongs } from "./suggestion";
 
 const CLIENT_ID = "a7190502be9547ff9a5fb3b916e3bcec";
-const REDIRECT_URL = "https://frolicking-dolphin-81d134.netlify.app";
+const REDIRECT_URL = "https://tunemix.netlify.app";
 // const REDIRECT_URL = "http://localhost:5173";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";

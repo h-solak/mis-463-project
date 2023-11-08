@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Home from "./pages/Home/Home";
 import NotFound from "./pages/NotFound/NotFound";
 import Generator from "./pages/Generator/Generator";
@@ -12,8 +10,6 @@ import Shuffle from "./pages/Shuffle/Shuffle";
 import Analyzer from "./pages/Analyzer/Analyzer";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <ThemeProvider theme={theme}>
       <Toaster></Toaster>

@@ -95,17 +95,17 @@ const Layout = ({ children }) => {
               <LogoutIcon sx={{ fontSize: 16 }} />
             </p>
           </Box>
-        ) : (
-          <Button
-            color="info"
-            variant="contained"
-            onClick={() => {
-              window.location.href = SPOTIFY_AUTH_LINK;
-            }}
-          >
-            Login
-          </Button>
-        )}
+        ) : null
+        // <Button
+        //   color="info"
+        //   variant="contained"
+        //   onClick={() => {
+        //     window.location.href = SPOTIFY_AUTH_LINK;
+        //   }}
+        // >
+        //   Login
+        // </Button>
+        }
       </nav>
       {isLoading ? (
         <Loader className={"absolute-center"} />

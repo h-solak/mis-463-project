@@ -5,6 +5,9 @@ const Playlist = ({ playlist }) => {
   return (
     <Grid
       item
+      xs={12}
+      sm={6}
+      md={4}
       paddingX={1}
       paddingY={1}
       onClick={() => {

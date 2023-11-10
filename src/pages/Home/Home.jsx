@@ -34,7 +34,13 @@ const Home = () => {
       <main className="p-4">
         <>
           <Grid container>
-            <Grid item xs={12} md={3} paddingRight={isSmScreen ? 0 : 2}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              marginY={isSmScreen ? 0.6 : 0}
+              paddingRight={isSmScreen ? 0 : 2}
+            >
               {" "}
               <Button
                 variant="outlined"
@@ -51,7 +57,13 @@ const Home = () => {
                 </Link>
               </Button>
             </Grid>
-            <Grid item xs={12} md={3} paddingRight={isSmScreen ? 0 : 2}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              marginY={isSmScreen ? 0.6 : 0}
+              paddingRight={isSmScreen ? 0 : 2}
+            >
               {" "}
               <Button
                 variant="contained"
@@ -62,7 +74,13 @@ const Home = () => {
                 Generate Playlists
               </Button>
             </Grid>
-            <Grid item xs={12} md={3} paddingRight={isSmScreen ? 0 : 2}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              marginY={isSmScreen ? 0.6 : 0}
+              paddingRight={isSmScreen ? 0 : 2}
+            >
               <Button
                 variant="contained"
                 className=""
@@ -73,7 +91,13 @@ const Home = () => {
                 Shuffle Playlists
               </Button>
             </Grid>
-            <Grid item xs={12} md={3} paddingLeft={isSmScreen ? 0 : 0}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              marginY={isSmScreen ? 0.6 : 0}
+              paddingLeft={isSmScreen ? 0 : 0}
+            >
               <Button
                 variant="contained"
                 className=""

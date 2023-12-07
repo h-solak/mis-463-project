@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const cors = require("cors");
 const suggestionRoute = require("./routes/suggestion");
+const businessPlaylistRoute = require("./routes/businessPlaylist");
 
 dotenv.config();
 //middleware
@@ -15,6 +16,7 @@ app.use(morgan("common"));
 app.use(cors());
 //routes
 app.use("/api/suggestion", suggestionRoute);
+app.use("/api/business-playlist", businessPlaylistRoute);
 
 // Create GET request
 app.get("/", (req, res) => {

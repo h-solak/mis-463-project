@@ -1,6 +1,6 @@
 import Home from "./pages/Home/Home";
 import NotFound from "./pages/NotFound/NotFound";
-import Generator from "./pages/Generator/Generator";
+import Generator from "./pages/Generator";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";

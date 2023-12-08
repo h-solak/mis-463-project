@@ -4,7 +4,7 @@ import React from "react";
 const BaseSlider = ({ value, onChange, label }) => {
   return (
     <Box
-      height={350}
+      height={275}
       display={"flex"}
       flexDirection={"column"}
       alignItems={"center"}
@@ -32,6 +32,12 @@ const BaseSlider = ({ value, onChange, label }) => {
         onChange={onChange}
         aria-label={label}
         valueLabelDisplay="off"
+        // marks={[
+        //   {
+        //     value: 34.7,
+        //     label: "Cafe",
+        //   },
+        // ]}
         // onKeyDown={preventHorizontalKeyboardNavigation}
       />
       <Box>

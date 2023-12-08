@@ -16,12 +16,13 @@ function App() {
       <UserProvider>
         <BrowserRouter>
           <Routes>
-            <Route key="home" path="/" element={<Home />}></Route>
             <Route
               key="generator"
               path="/generator"
               element={<Generator />}
             ></Route>
+            <Route key="home" path="/" element={<Home />}></Route>
+
             <Route key="shuffle" path="/shuffle" element={<Shuffle />}></Route>
             <Route
               key="playlist-analyzer"

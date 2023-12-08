@@ -13,6 +13,7 @@ import Modal from "../../components/Modal";
 import SpotifyLogo from "../../assets/spotify.svg";
 import Vectors from "./Vectors";
 import ActionButton from "../../components/base/ActionButton";
+import FilterForm from "./FilterForm";
 
 const cafeVectorPreset = {
   danceability: 37.4,
@@ -39,6 +40,19 @@ const Generator = () => {
   const [generatedPlaylist, setGeneratedPlaylist] = useState({});
   const [pageBg, setPageBg] = useState("#fff");
   const [playlistVectors, setPlaylistVectors] = useState(cafeVectorPreset);
+  const [filterForm, setFilterForm] = useState({
+    popularity: "None",
+    timeSignature: "None",
+    key: "None",
+    mode: "None",
+    explicit: "None",
+    speechy: "no",
+    instrumental: "None",
+    live: "None",
+    numberOfTracks: "None", //default: 30
+    customerChoiceGenres: true, //if this is disabled, customerChoiceGenres is enabled
+    genres: ["rap", "alternative", "rock", "grunge", "pop", "jazz", "hiphop"], //rap, alternative, rock, grunge, pop, jazz, hiphop
+  });
   /*
   Defaults
    {'cafe': [0.374, 0.701, 0.558, 0.694], 
@@ -76,26 +90,28 @@ const Generator = () => {
   }, [playlistVectors]);
   return (
     <Layout>
-      <main style={{ background: pageBg }}>
+      <main className="page-container" style={{ background: pageBg }}>
         {crrStep == 0 ? (
           <Grid container>
             <Vectors
               playlistVectors={playlistVectors}
               setPlaylistVectors={setPlaylistVectors}
             />
+            <FilterForm filterForm={filterForm} setFilterForm={setFilterForm} />
             <Grid
               item
               md={12}
               display={"flex"}
               alignItems={"center"}
               justifyContent={"center"}
+              height={"60px"}
             >
               <ActionButton
                 variant="contained"
                 onClick={() => {
                   handleCreateBusinessPlaylist(user?.id, "club");
                 }}
-                fontSize={16}
+                fontSize={20}
               >
                 Generate Playlist
               </ActionButton>
@@ -108,20 +124,19 @@ const Generator = () => {
               justifyContent={"center"}
               alignItems={"center"}
               flexDirection={"column"}
-              gap={1}
-              className={`fade-in-rtl`}
+              className={`fade-in-rtl page-container`}
             >
-              <Typography textAlign={"center"} fontWeight={600}>
-                Your playlist is on the way!
-              </Typography>
               <Lottie
                 animationData={LottieLoading}
                 loop={true}
                 style={{
-                  height: 150,
-                  width: 150,
+                  height: 300,
+                  width: 450,
                 }}
               />
+              <Typography textAlign={"center"} variant="h5" fontWeight={600}>
+                Your playlist is on the way!
+              </Typography>
               <Typography textAlign={"center"}>
                 Good tunes take time :)
               </Typography>
@@ -172,30 +187,3 @@ const Generator = () => {
 };
 
 export default Generator;
-
-/*
-
-<Grid
-                container
-                sx={{ backgroundColor: "red", minHeight: 400, minWidth: 400 }}
-              >
-                {generatedPlaylist?.items?.map((item) => {
-                  <Grid
-                    item
-                    xs={12}
-                    md={3}
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                  >
-                    <img
-                      src={item?.track?.album?.images[0]?.url}
-                      width={50}
-                      height={50}
-                      alt=""
-                    />
-                    <h6>{item?.track?.artists[0]?.name}</h6>
-                    <h6>{item?.track?.name}</h6>
-                  </Grid>;
-                })}
-              </Grid>
-*/

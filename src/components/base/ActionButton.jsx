@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-const ActionButton = ({ children, onClick, sx, fontSize }) => {
+const ActionButton = ({ children, onClick, sx, fontSize, startIcon }) => {
   return (
     <Button
       variant="contained"
@@ -16,6 +16,7 @@ const ActionButton = ({ children, onClick, sx, fontSize }) => {
         paddingX: 4,
         paddingY: 1,
       }}
+      startIcon={startIcon ? startIcon : null}
     >
       {children}
     </Button>

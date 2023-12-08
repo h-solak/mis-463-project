@@ -10,12 +10,11 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#15A649",
-      light: "#3D2C8D",
     },
     secondary: {
       //grey(ish)
       main: "#C3C2C2",
-      light: "#F8F8F8",
+      light: "#f2f2f2",
     },
     highlight: {
       //accent color - call to action (cta)

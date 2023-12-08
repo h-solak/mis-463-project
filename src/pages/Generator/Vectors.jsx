@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Slider from "./Slider";
 
@@ -45,23 +45,41 @@ const clubVectorPreset = {
   valence: 81.8,
 };
 
+const areVectorsEqual = (v1, v2) => {
+  return JSON.stringify(v1) == JSON.stringify(v2);
+};
 const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
-  const creatingType =
-    playlistVectors == cafeVectorPreset
-      ? "Cafe"
-      : playlistVectors == barVectorPreset
-      ? "Bar"
-      : playlistVectors == clubVectorPreset
-      ? "Club"
-      : "Custom";
+  const [vectorType, setVectorType] = useState("Cafe");
+
+  useEffect(() => {
+    let newVectorType;
+    switch (JSON.stringify(playlistVectors)) {
+      case JSON.stringify(barVectorPreset):
+        newVectorType = "Bar";
+        break;
+      case JSON.stringify(clubVectorPreset):
+        newVectorType = "Club";
+        break;
+      case JSON.stringify(cafeVectorPreset):
+        newVectorType = "Cafe";
+        break;
+      default:
+        newVectorType = "Custom";
+    }
+
+    setVectorType(newVectorType);
+  }, [playlistVectors]);
+  useEffect(() => {
+    console.log(playlistVectors);
+  }, [playlistVectors]);
+
   return (
-    <Grid item md={5.6}>
+    <Grid item xs={12} md={6} marginTop={4} paddingX={5}>
       <Box
         display={"flex"}
         flexDirection={"column"}
         alignItems={"start"}
         gap={4}
-        padding={5}
       >
         <Typography
           textAlign={"start"}
@@ -69,7 +87,7 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
           color={"primary.main"}
           fontWeight={700}
         >
-          {creatingType}
+          {vectorType}
         </Typography>
         <Box
           display={"flex"}
@@ -79,19 +97,19 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
         >
           <BusinessButton
             onClick={() => setPlaylistVectors(cafeVectorPreset)}
-            isActive={playlistVectors == cafeVectorPreset}
+            isActive={areVectorsEqual(playlistVectors, cafeVectorPreset)}
           >
             Cafe
           </BusinessButton>
           <BusinessButton
             onClick={() => setPlaylistVectors(barVectorPreset)}
-            isActive={playlistVectors == barVectorPreset}
+            isActive={areVectorsEqual(playlistVectors, barVectorPreset)}
           >
             Bar
           </BusinessButton>
           <BusinessButton
             onClick={() => setPlaylistVectors(clubVectorPreset)}
-            isActive={playlistVectors == clubVectorPreset}
+            isActive={areVectorsEqual(playlistVectors, clubVectorPreset)}
           >
             Club
           </BusinessButton>
@@ -99,7 +117,7 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
             <span
               style={{
                 backgroundImage:
-                  creatingType == "Custom"
+                  vectorType == "Custom"
                     ? "linear-gradient(90deg,#00c0ff 0%,#ffcf00 49%,#fc4f4f 100%)"
                     : "none",
               }}

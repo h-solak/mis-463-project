@@ -39,8 +39,6 @@ const Playlist = ({ playlist }) => {
       liveness += item.liveness;
     });
 
-    console.log("aa", acousticness, danceability, instrumentalness, liveness);
-
     acousticness /= totalTracks;
     danceability /= totalTracks;
     instrumentalness /= totalTracks;

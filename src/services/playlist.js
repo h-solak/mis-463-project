@@ -21,7 +21,6 @@ const createBusinessPlaylist = async (user_id, businessType) => {
     const playlist = res.data.playlist; //array of IDs
     let uris = [];
     playlist?.map((item) => uris?.push(`spotify:track:${item}`));
-    console.log(playlist);
 
     const playlistId = await createNewSpotifyPlaylist(
       user_id,

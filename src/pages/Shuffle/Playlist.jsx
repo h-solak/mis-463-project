@@ -18,7 +18,6 @@ const Playlist = ({ playlist }) => {
 
   const getPlaylist = async (id) => {
     const res = await getPlaylistTracks(id);
-    console.log(res);
     // window.open(playlist.external_urls.spotify, "_blank");
   };
 
@@ -51,7 +50,6 @@ const Playlist = ({ playlist }) => {
     toast.success(`${playlistName} is shuffled!`);
   };
 
-  useEffect(() => console.log(progress.progress), [progress]);
   return (
     <>
       <Box

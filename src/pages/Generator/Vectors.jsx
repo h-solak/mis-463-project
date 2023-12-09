@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import Slider from "./Slider";
 
 const BusinessButton = ({ children, onClick, isActive }) => {
@@ -49,6 +49,8 @@ const areVectorsEqual = (v1, v2) => {
   return JSON.stringify(v1) == JSON.stringify(v2);
 };
 const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
+  const isSmScreen = useMediaQuery("(max-width:900px)");
+
   const [vectorType, setVectorType] = useState("Cafe");
 
   useEffect(() => {
@@ -69,12 +71,16 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
 
     setVectorType(newVectorType);
   }, [playlistVectors]);
-  useEffect(() => {
-    console.log(playlistVectors);
-  }, [playlistVectors]);
 
   return (
-    <Grid item xs={12} md={6} marginTop={4} paddingX={5}>
+    <Grid
+      item
+      xs={12}
+      md={6}
+      marginTop={4}
+      paddingX={5}
+      height={isSmScreen ? "auto" : "calc(100vh - 200px)"}
+    >
       <Box
         display={"flex"}
         flexDirection={"column"}
@@ -115,12 +121,15 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
           </BusinessButton>
           <button className="rainbow-btn">
             <span
-              style={{
-                backgroundImage:
-                  vectorType == "Custom"
-                    ? "linear-gradient(90deg,#00c0ff 0%,#ffcf00 49%,#fc4f4f 100%)"
-                    : "none",
-              }}
+              style={
+                vectorType == "Custom"
+                  ? {
+                      backgroundImage:
+                        "linear-gradient(90deg,#00c0ff 0%,#ffcf00 49%,#fc4f4f 100%)",
+                      boxShadow: "0px 21px 15px -3px rgba(0,0,0,0.15)",
+                    }
+                  : null
+              }
             >
               Create Your Own
             </span>

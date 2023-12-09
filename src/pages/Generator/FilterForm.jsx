@@ -4,6 +4,7 @@ import {
   FormControlLabel,
   Grid,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { filterFormValues, defaultGenres } from "./FilterFormValues";
@@ -51,6 +52,7 @@ const OptionContainer = ({ children, title }) => {
 };
 
 const FilterForm = ({ filterForm, setFilterForm }) => {
+  const isSmScreen = useMediaQuery("(max-width:900px)");
   const handleAllChanges = (value, sectionTitle) => {
     switch (sectionTitle) {
       case "Popularity":
@@ -122,10 +124,7 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
         genres: newGenres,
       }));
     }
-    console.log(filterForm.genres);
   };
-
-  useEffect(() => console.log(filterForm.customerChoiceGenres), [filterForm]);
 
   return (
     <Grid
@@ -135,7 +134,7 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
       paddingX={5}
       paddingBottom={4}
       marginTop={4}
-      maxHeight={"calc(100vh - 230px)"}
+      height={isSmScreen ? "auto" : "calc(100vh - 220px)"}
       sx={{
         overflowY: "scroll",
       }}
@@ -209,8 +208,9 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
           }}
         >
           <Grid container spacing={1}>
-            {defaultGenres.map((genre) => (
+            {defaultGenres.map((genre, index) => (
               <OptionButton
+                key={index}
                 title={genre.name}
                 onClick={() =>
                   filterForm.customerChoiceGenres

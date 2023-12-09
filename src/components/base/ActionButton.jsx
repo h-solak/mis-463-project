@@ -1,10 +1,17 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-const ActionButton = ({ children, onClick, sx, fontSize, startIcon }) => {
+const ActionButton = ({
+  children,
+  onClick,
+  sx,
+  fontSize,
+  variant,
+  startIcon,
+}) => {
   return (
     <Button
-      variant="contained"
+      variant={variant ? variant : "contained"}
       color="highlight"
       onClick={onClick}
       sx={{

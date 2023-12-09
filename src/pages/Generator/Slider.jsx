@@ -20,10 +20,10 @@ const BaseSlider = ({ value, onChange, label }) => {
           "& .MuiSlider-thumb": {
             borderRadius: 1,
             width: 36,
-            height: 12,
+            height: 14,
           },
           "& .MuiSlider-rail": {
-            color: "secondary.main",
+            backgroundColor: "secondary.main",
             width: 7,
           },
         }}

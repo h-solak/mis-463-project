@@ -3,10 +3,27 @@ const { spawn } = require("child_process");
 
 //create the playlist user wants: cafe, bar, club
 router.post("/", async (req, res) => {
-  const { businessType, param2 } = req.body;
+  const { playlistVectors, filterForm } = req.body;
+  console.log("1", playlistVectors, "2", filterForm);
 
   // C:\Users\hasan\Projects\mis-463-project\deneme.py
-  const pythonProcess = spawn("python", ["main.py", businessType, param2]);
+  const pythonProcess = spawn("python", [
+    "main.py",
+    playlistVectors?.danceability,
+    playlistVectors?.energy,
+    playlistVectors?.acousticness,
+    playlistVectors?.valence,
+    filterForm?.popularity,
+    filterForm?.timeSignature,
+    filterForm?.key,
+    filterForm?.mode,
+    filterForm?.speechy,
+    filterForm?.instrumental,
+    filterForm?.live,
+    filterForm?.numberOfTracks,
+    filterForm?.customerChoiceGenres ? "yes" : "no",
+    filterForm?.genres.join(","),
+  ]);
 
   let result = "";
 

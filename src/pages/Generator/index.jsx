@@ -60,13 +60,25 @@ const Generator = () => {
     timeSignature: "None",
     key: "None",
     mode: "None",
-    explicit: "None",
+    // explicit: "None",
     speechy: "no",
     instrumental: "None",
     live: "None",
     numberOfTracks: "None", //default: 30
     customerChoiceGenres: true, //if this is disabled, customerChoiceGenres is enabled
-    genres: ["rap", "alternative", "rock", "grunge", "pop", "jazz", "hiphop"], //rap, alternative, rock, grunge, pop, jazz, hiphop
+    genres: [
+      "Rock",
+      "Pop",
+      "Metal",
+      "Hip Hop",
+      "Electronic",
+      "Jazz",
+      "R&B",
+      "Blues",
+      "Easy Listening",
+      "Classical",
+      "Folk/Acoustic",
+    ],
   });
 
   useEffect(() => {
@@ -83,9 +95,13 @@ const Generator = () => {
   */
   const isSmScreen = useMediaQuery("(max-width:900px)");
 
-  const handleCreateBusinessPlaylist = async (userId, businessType) => {
+  const handleCreateBusinessPlaylist = async (userId) => {
     setCrrStep(1);
-    const playlistId = await createBusinessPlaylist(userId, businessType);
+    const playlistId = await createBusinessPlaylist(
+      userId,
+      playlistVectors,
+      filterForm
+    );
     const newPlaylist = await getPlaylist(playlistId);
     setGeneratedPlaylist(newPlaylist);
     console.log("yeni", newPlaylist);
@@ -163,7 +179,7 @@ const Generator = () => {
                   <ActionButton
                     variant="contained"
                     onClick={() => {
-                      handleCreateBusinessPlaylist(user?.id, "club");
+                      handleCreateBusinessPlaylist(user?.id);
                     }}
                     fontSize={20}
                     sx={{

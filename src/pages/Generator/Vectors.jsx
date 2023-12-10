@@ -172,7 +172,7 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
             }
           />
           <Slider
-            label={"Valence"}
+            label={"Happiness"}
             value={playlistVectors.valence}
             onChange={(e) =>
               setPlaylistVectors((oldVectors) => ({

@@ -12,8 +12,20 @@ import json
 
 warnings.filterwarnings("ignore")
 
-business_type = sys.argv[1]
-param2 = sys.argv[2]
+user_vector_danceability = float(sys.argv[1]) / 100.0
+user_vector_energy = float(sys.argv[2]) / 100.0
+user_vector_acousticness = float(sys.argv[3]) / 100.0
+user_vector_valence = float(sys.argv[4]) / 100.0
+user_popularity =  None if sys.argv[5] == "None" else sys.argv[5]
+user_timeSignature =  None if sys.argv[6] == "None" else sys.argv[6]
+# user_key =  None if sys.argv[7] == "None" else sys.argv[7]
+user_mode =  None if sys.argv[8] == "None" else int(sys.argv[8])
+user_speechy =  sys.argv[9]
+user_instrumental =  None if sys.argv[10] == "None" else sys.argv[10]
+user_live =  None if sys.argv[11] == "None" else sys.argv[11]
+user_number_of_tracks = int(sys.argv[12]) if sys.argv[12].lower() != "none" else None
+user_customer_choice_genres = sys.argv[13]
+user_genres = sys.argv[14].split(',')
 
 
 tracks_to_filter = pd.read_csv('Database/Implement/tracks_to_filter.csv')
@@ -30,7 +42,7 @@ class UserEstablishmentChoice:
             'bar': [0.769, 0.846, 0.582, 0.802],
             'club': [0.974, 0.857, 0.247, 0.818]}
     
-    def __init__(self, ESTABLISHMENT=business_type):
+    def __init__(self, ESTABLISHMENT="cafe"):
         self._ESTABLISHMENT = ESTABLISHMENT.lower()
         
     @property
@@ -70,7 +82,7 @@ class UserFilterSettings():
     CUSTOMER_CHOICE_GENRES = None
 
 
-def get_vector(est=business_type, danceability=None, energy=None, acousticness=None, valence=None): 
+def get_vector(est="cafe", danceability=None, energy=None, acousticness=None, valence=None): 
     """
 Parameters
 ----------
@@ -309,10 +321,10 @@ A pd.DataFrame.
 #     return f'https://open.spotify.com/playlist/{playlist["id"]}'
 
 est = 'club'
-UserVectorSettings.DANCEABILITY = None
-UserVectorSettings.ENERGY = None
-UserVectorSettings.ACOUSTICNESS = None
-UserVectorSettings.VALENCE = None
+UserVectorSettings.DANCEABILITY = user_vector_danceability
+UserVectorSettings.ENERGY = user_vector_energy
+UserVectorSettings.ACOUSTICNESS = user_vector_acousticness
+UserVectorSettings.VALENCE = user_vector_valence
 
 vector = get_vector(est=est,
                 danceability=UserVectorSettings.DANCEABILITY,
@@ -322,21 +334,21 @@ vector = get_vector(est=est,
 
 filter_df = calculate_similarity(vector_df=tracks_to_vectorize, filter_df=tracks_to_filter, vector=vector)
 
-UserFilterSettings.POPULARITY = None
+UserFilterSettings.POPULARITY = user_popularity
 UserFilterSettings.MIN_DURATION_OF_EACH_TRACK = None
 UserFilterSettings.MAX_DURATION_OF_EACH_TRACK = None
-UserFilterSettings.TIME_SIGNATURE = None
+UserFilterSettings.TIME_SIGNATURE = user_timeSignature
 UserFilterSettings.KEY = None
 UserFilterSettings.MIN_TEMPO_OF_EACH_TRACK = None
 UserFilterSettings.MAX_TEMPO_OF_EACH_TRACK = None
-UserFilterSettings.MODE = None
+UserFilterSettings.MODE = user_mode
 UserFilterSettings.EXPLICIT = None
-# UserFilterSettings.SPEECHY = None
-UserFilterSettings.INSTRUMENTAL = None
-UserFilterSettings.LIVE = None
-UserFilterSettings.NUMBER_OF_TRACKS_IN_PLAYLIST = None
+UserFilterSettings.SPEECHY = user_speechy
+UserFilterSettings.INSTRUMENTAL = user_instrumental
+UserFilterSettings.LIVE = user_live
+UserFilterSettings.NUMBER_OF_TRACKS_IN_PLAYLIST = user_number_of_tracks
 UserFilterSettings.GENRES = None
-# UserFilterSettings.CUSTOMER_CHOICE_GENRES = None
+UserFilterSettings.CUSTOMER_CHOICE_GENRES = user_customer_choice_genres
 
 tracks_filtered = filter_tracks(
                 filter_df=filter_df,
@@ -356,11 +368,6 @@ tracks_filtered = filter_tracks(
                 number_of_tracks_in_playlist=UserFilterSettings.NUMBER_OF_TRACKS_IN_PLAYLIST,
                 genres=UserFilterSettings.GENRES,
                 customer_choice_genres=UserFilterSettings.CUSTOMER_CHOICE_GENRES)
-
-# desc = 'Created by TuneMix'
-
-# create_playlist(np.array(tracks_filtered['track_id']), 
-#                 f'TuneMix: {est.capitalize()} #{str(int(pd.to_numeric(datetime.now().timestamp())))[-8:]}', desc)
 
 song_ids = np.array(tracks_filtered['track_id'])
 song_ids_list = song_ids.tolist()

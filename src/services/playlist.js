@@ -3,6 +3,7 @@ import { projectApiBaseAxios, spotifyApiBaseAxios } from "../api/axiosConfig";
 import { addItemsToPlaylist } from "./tracks";
 import toast from "react-hot-toast";
 import CoverImg from "../assets/tunemix.jpg";
+import imageToBase64 from "image-to-base64";
 
 /*
 UserVectorSettings:
@@ -13,10 +14,11 @@ VALENCE = None
 
 
 */
-const createBusinessPlaylist = async (user_id, businessType) => {
+const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
   try {
     const res = await projectApiBaseAxios.post("/business-playlist", {
-      businessType: "club",
+      playlistVectors: playlistVectors,
+      filterForm: filterForm,
     });
     const playlist = res.data.playlist; //array of IDs
     let uris = [];
@@ -26,6 +28,16 @@ const createBusinessPlaylist = async (user_id, businessType) => {
       user_id,
       "Tunemix Playlist",
       new Date().toLocaleDateString("en-US")
+    );
+    await axios.put(
+      `https://api.spotify.com/v1/playlists/${playlistId}/images`,
+      CoverImg,
+      {
+        headers: {
+          "Content-Type": "image/jpeg",
+          Authorization: `Bearer ${localStorage.getItem("mis-463-token")}`,
+        },
+      }
     );
     await addItemsToPlaylist(playlistId, uris);
     return playlistId;

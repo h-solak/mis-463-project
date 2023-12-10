@@ -34,19 +34,19 @@ const filterFormValues = [
       },
       {
         title: "3/4",
-        value: "3/4",
+        value: "3",
       },
       {
         title: "4/4",
-        value: "4/4",
+        value: "4",
       },
       {
         title: "5/4",
-        value: "5/4",
+        value: "5",
       },
       {
         title: "7/4",
-        value: "7/4",
+        value: "7",
       },
     ],
   },
@@ -92,11 +92,11 @@ const filterFormValues = [
       },
       {
         title: "Minor",
-        value: "Minor",
+        value: "0",
       },
       {
         title: "Major",
-        value: "Major",
+        value: "1",
       },
     ],
   },
@@ -104,11 +104,8 @@ const filterFormValues = [
   {
     title: "Speechiness",
     stateTitle: "speechy",
+    info: "Including podcast-like tracks or not",
     options: [
-      {
-        title: "All",
-        value: "None",
-      },
       {
         title: "Yes",
         value: "yes",
@@ -129,12 +126,12 @@ const filterFormValues = [
         value: "None",
       },
       {
-        title: "High",
-        value: "High",
+        title: "Yes",
+        value: "yes",
       },
       {
-        title: "Low",
-        value: "Low",
+        title: "No",
+        value: "no",
       },
     ],
   },
@@ -148,12 +145,12 @@ const filterFormValues = [
         value: "None",
       },
       {
-        title: "High",
-        value: "High",
+        title: "Yes",
+        value: "yes",
       },
       {
-        title: "Low",
-        value: "Low",
+        title: "No",
+        value: "no",
       },
     ],
   },
@@ -180,38 +177,60 @@ const filterFormValues = [
 
 const defaultGenres = [
   {
-    name: "Rap",
-    value: "rap",
-    isChecked: true,
-  },
-  {
-    name: "Alternative",
-    value: "alternative",
-    isChecked: true,
-  },
-  {
     name: "Rock",
-    value: "rock",
-    isChecked: true,
-  },
-  {
-    name: "Grunge",
-    value: "grunge",
+    value: "Rock",
     isChecked: true,
   },
   {
     name: "Pop",
-    value: "pop",
+    value: "Pop",
     isChecked: true,
   },
   {
-    name: "Jazz",
-    value: "jazz",
+    name: "Metal",
+    value: "Metal",
     isChecked: true,
   },
   {
     name: "Hip Hop",
-    value: "hiphop",
+    value: "Hip Hop",
+    isChecked: true,
+  },
+
+  {
+    name: "Electronic",
+    value: "Electronic",
+    isChecked: true,
+  },
+
+  {
+    name: "Jazz",
+    value: "Jazz",
+    isChecked: true,
+  },
+  {
+    name: "R&B",
+    value: "R&B",
+    isChecked: true,
+  },
+  {
+    name: "Blues",
+    value: "Blues",
+    isChecked: true,
+  },
+  {
+    name: "Easy Listening",
+    value: "Easy Listening",
+    isChecked: true,
+  },
+  {
+    name: "Classical",
+    value: "Classical",
+    isChecked: true,
+  },
+  {
+    name: "Folk/Acoustic",
+    value: "Folk/Acoustic",
     isChecked: true,
   },
 ];

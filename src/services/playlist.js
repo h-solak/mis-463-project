@@ -3,7 +3,7 @@ import { projectApiBaseAxios, spotifyApiBaseAxios } from "../api/axiosConfig";
 import { addItemsToPlaylist } from "./tracks";
 import toast from "react-hot-toast";
 import CoverImg from "../assets/tunemix.jpg";
-import imageToBase64 from "image-to-base64";
+import convertBase64 from "../utils/convertBase64";
 
 /*
 UserVectorSettings:
@@ -16,6 +16,13 @@ VALENCE = None
 */
 const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
   try {
+    const playlistId = await createNewSpotifyPlaylist(
+      user_id,
+      "Tunemix Playlist",
+      new Date().toLocaleDateString("en-US")
+    );
+
+    await addCustomPlaylistCoverImg(playlistId, CoverImg);
     const res = await projectApiBaseAxios.post("/business-playlist", {
       playlistVectors: playlistVectors,
       filterForm: filterForm,
@@ -24,26 +31,25 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
     let uris = [];
     playlist?.map((item) => uris?.push(`spotify:track:${item}`));
 
-    const playlistId = await createNewSpotifyPlaylist(
-      user_id,
-      "Tunemix Playlist",
-      new Date().toLocaleDateString("en-US")
-    );
-    await axios.put(
-      `https://api.spotify.com/v1/playlists/${playlistId}/images`,
-      CoverImg,
-      {
-        headers: {
-          "Content-Type": "image/jpeg",
-          Authorization: `Bearer ${localStorage.getItem("mis-463-token")}`,
-        },
-      }
-    );
     await addItemsToPlaylist(playlistId, uris);
     return playlistId;
   } catch (err) {
     console.log(err);
   }
+};
+
+const addCustomPlaylistCoverImg = async (playlistId, img) => {
+  const base64Img = await convertBase64(img);
+  await axios.put(
+    `https://api.spotify.com/v1/playlists/${playlistId}/images`,
+    base64Img,
+    {
+      headers: {
+        "Content-Type": "image/jpeg",
+        Authorization: `Bearer ${localStorage.getItem("mis-463-token")}`,
+      },
+    }
+  );
 };
 
 const createNewSpotifyPlaylist = async (user_id, name, description) => {
@@ -65,7 +71,7 @@ const createNewSpotifyPlaylist = async (user_id, name, description) => {
   return playlistId;
 };
 
-export { createBusinessPlaylist };
+export { createBusinessPlaylist, addCustomPlaylistCoverImg };
 
 // const getRandomSongs = async () => {
 //   try {

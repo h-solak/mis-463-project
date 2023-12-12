@@ -7,7 +7,7 @@ const CLIENT_ID = "a7190502be9547ff9a5fb3b916e3bcec";
 const REDIRECT_URL = "http://localhost:5173/generator";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
-const SPOTIFY_AUTH_LINK = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}&scope=playlist-modify-public`;
+const SPOTIFY_AUTH_LINK = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&response_type=${RESPONSE_TYPE}&scope=playlist-modify-public,ugc-image-upload`;
 
 const getCrrUser = async () => {
   try {

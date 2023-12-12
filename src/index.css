@@ -223,6 +223,21 @@ p {
   animation: fadeOutLeftToRight 1s ease-in-out;
 }
 
+@keyframes absoluteFadeInLeftToRight {
+  from {
+    opacity: 0;
+    left: 45%;
+  }
+  to {
+    opacity: 1;
+    left: 50%;
+  }
+}
+
+.absolute-fade-in-ltr {
+  animation: absoluteFadeInLeftToRight 1s ease-in-out;
+}
+
 /*---*/
 
 /*

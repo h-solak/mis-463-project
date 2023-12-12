@@ -12,7 +12,7 @@ const Landing = () => {
       <Grid
         item
         md={5}
-        paddingX={4}
+        paddingX={6}
         display={"flex"}
         flexDirection={"column"}
         justifyContent={"center"}
@@ -46,7 +46,7 @@ const Landing = () => {
       <Grid
         item
         md={7}
-        paddingX={4}
+        paddingX={6}
         display={"flex"}
         alignItems={"center"}
         justifyContent={"end"}
@@ -71,7 +71,7 @@ const Landing = () => {
             width={"50%"}
             alt="soundwaves"
             style={{
-              maxHeight: 90,
+              height: 70,
             }}
           />
           <img
@@ -79,7 +79,7 @@ const Landing = () => {
             width={"50%"}
             alt="soundwaves"
             style={{
-              maxHeight: 90,
+              height: 70,
               marginLeft: "-36px",
             }}
           />
@@ -88,7 +88,7 @@ const Landing = () => {
             width={"50%"}
             alt="soundwaves"
             style={{
-              maxHeight: 90,
+              height: 70,
               marginLeft: "-36px",
             }}
           />

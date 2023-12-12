@@ -18,7 +18,7 @@ const projectApiBaseAxios = axios.create({
 
 const setAccessToken = (token) => {
   if (token) {
-    localStorage.setItem("mis-463-token", token);
+    localStorage.setItem("tunemix-auth", token);
     spotifyApiBaseAxios.defaults.headers.common[
       "Authorization"
     ] = `Bearer ${token}`;
@@ -28,11 +28,11 @@ const setAccessToken = (token) => {
 };
 
 const removeAccessToken = () => {
-  localStorage.removeItem("mis-463-token");
+  localStorage.removeItem("tunemix-auth");
   delete spotifyApiBaseAxios.defaults.headers.common["Authorization"];
 };
 
-const accessToken = localStorage.getItem("mis-463-token");
+const accessToken = localStorage.getItem("tunemix-auth");
 
 if (accessToken) {
   setAccessToken(accessToken);

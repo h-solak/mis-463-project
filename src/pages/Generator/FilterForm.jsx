@@ -104,7 +104,7 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
         }));
         break;
       default:
-        console.log("default is called");
+        console.log(null);
     }
   };
 

@@ -16,6 +16,7 @@ VALENCE = None
 */
 const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
   try {
+    //create the playlist on spotify
     const playlistId = await createNewSpotifyPlaylist(
       user_id,
       "Tunemix Playlist",
@@ -23,6 +24,8 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
     );
 
     await addCustomPlaylistCoverImg(playlistId, CoverImg);
+
+    //project API
     const res = await projectApiBaseAxios.post("/business-playlist", {
       playlistVectors: playlistVectors,
       filterForm: filterForm,
@@ -30,8 +33,18 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
     const playlist = res.data.playlist; //array of IDs
     let uris = [];
     playlist?.map((item) => uris?.push(`spotify:track:${item}`));
-
     await addItemsToPlaylist(playlistId, uris);
+
+    // //save the new playlist to local storage
+    // let newPlaylistHistory = JSON.parse(
+    //   localStorage.getItem("tunemix-history")
+    // );
+    // newPlaylistHistory.push({
+    //   playlistId: playlistId,
+    //   userId: user_id,
+    // });
+    // localstorage.setItem("tunemix-history", JSON.stringify(newPlaylistHistory));
+
     return playlistId;
   } catch (err) {
     console.log(err);
@@ -46,7 +59,7 @@ const addCustomPlaylistCoverImg = async (playlistId, img) => {
     {
       headers: {
         "Content-Type": "image/jpeg",
-        Authorization: `Bearer ${localStorage.getItem("mis-463-token")}`,
+        Authorization: `Bearer ${localStorage.getItem("tunemix-auth")}`,
       },
     }
   );
@@ -61,13 +74,6 @@ const createNewSpotifyPlaylist = async (user_id, name, description) => {
     }
   );
   const playlistId = newPlaylist?.data?.id;
-  // const coverImgBase64 = await convertToBase64(CoverImg);
-  // console.log("1");
-  // await spotifyApiBaseAxios.put(
-  //   `/playlists/${playlistId}/images`,
-  //   tunemixLogoCoverBase64
-  // );
-  // console.log("2");
   return playlistId;
 };
 

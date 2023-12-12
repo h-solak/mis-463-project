@@ -12,7 +12,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from "../contexts/user/useUser";
 import { SPOTIFY_AUTH_LINK, getCrrUser, getPlaylists } from "../services/user";
@@ -29,6 +29,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
 const Layout = ({ children }) => {
+  const navbarRef = useRef(null);
   const isSmScreen = useMediaQuery("(max-width:900px)");
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(false);
@@ -45,7 +46,7 @@ const Layout = ({ children }) => {
 
   const checkUser = async () => {
     const hash = window.location.hash;
-    let token = localStorage.getItem("mis-463-token");
+    let token = localStorage.getItem("tunemix-auth");
 
     if (hash) {
       setAccessToken(clearHash(hash));
@@ -83,14 +84,15 @@ const Layout = ({ children }) => {
   return (
     <>
       <Grid container display={"flex"} justifyContent={"center"}>
-        <Grid item md={12} lg={11} xl={window.innerWidth > 1600 ? 7 : 10}>
+        <Grid item xs={12} lg={11} xl={window.innerWidth > 1600 ? 7 : 10}>
           <Box>
             {/* Navbar */}
             <Box
+              ref={navbarRef}
               display={"flex"}
               alignItems={"center"}
               justifyContent={"space-between"}
-              paddingX={3}
+              paddingX={6}
               sx={{
                 height: "72px",
                 borderBottom: user?.id ? 3 : 0,
@@ -198,21 +200,27 @@ const Layout = ({ children }) => {
                 )
               ) : null}
             </Box>
+
             {/* Page */}
             {isLoading ? (
               <Loader className={"absolute-center"} />
             ) : user?.id ? (
-              <div
-              // className="pb-5"
+              <Box
+                paddingX={4}
+                // className="pb-5"
+                minHeight={`calc(100vh - ${
+                  navbarRef.current.clientHeight + 3
+                }px)`}
               >
                 {children}
-              </div>
+              </Box>
             ) : (
               <Landing />
             )}
           </Box>
         </Grid>
       </Grid>
+
       {/* User Popover Profile&Logout */}
       <Popover
         open={Boolean(anchorEl)}
@@ -264,7 +272,7 @@ const Layout = ({ children }) => {
             onClick={() => {
               setAnchorEl(null);
               setUser({});
-              localStorage.removeItem("mis-463-token");
+              localStorage.removeItem("tunemix-auth");
               window.history.pushState(
                 "object or string",
                 "Title",

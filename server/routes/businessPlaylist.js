@@ -4,7 +4,7 @@ const { spawn } = require("child_process");
 //create the playlist user wants: cafe, bar, club
 router.post("/", async (req, res) => {
   const { playlistVectors, filterForm } = req.body;
-  console.log("1", playlistVectors, "2", filterForm);
+  // console.log("1", playlistVectors, "2", filterForm);
 
   // C:\Users\hasan\Projects\mis-463-project\deneme.py
   const pythonProcess = spawn("python", [
@@ -38,7 +38,6 @@ router.post("/", async (req, res) => {
   pythonProcess.on("close", (code) => {
     if (code === 0) {
       const newResult = JSON.parse(result);
-      console.log(newResult);
       res.status(200).json({ playlist: JSON.parse(result) });
     } else {
       res.status(500).send(`Python script exited with code ${code}`);
@@ -47,7 +46,6 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  console.log("Heck yeah");
   res.status(200).json({ success: true });
 });
 

@@ -104,15 +104,6 @@ const Generator = () => {
     );
     const newPlaylist = await getPlaylist(playlistId);
     setGeneratedPlaylist(newPlaylist);
-    console.log("yeni", newPlaylist);
-    // newPlaylist?.items?.map((item) =>
-    //   console.log(item?.track?.name, " - ", item?.track?.artists[0].name)
-    // );
-    // const playlists = await getPlaylists(user?.id); //refresh all playlists to save it
-    // setUser({
-    //   ...user,
-    //   playlists: playlists,
-    // });
     setCrrStep(2);
     setCelebrationIsPlaying(true);
   };
@@ -138,31 +129,31 @@ const Generator = () => {
   }, [playlistVectors]);
   return (
     <Layout>
-      <main className="" style={{ background: pageBg }}>
-        {crrStep == 0 ? (
-          <Grid container>
-            <Vectors
-              playlistVectors={playlistVectors}
-              setPlaylistVectors={setPlaylistVectors}
-            />
-            <FilterForm filterForm={filterForm} setFilterForm={setFilterForm} />
-            <Grid
-              item
-              md={12}
-              display={"flex"}
-              alignItems={"center"}
-              justifyContent={"center"}
-              gap={2}
-              height={"72px"}
-            >
-              <Grid container>
-                <Grid item sm={4}>
-                  <Tooltip title="Playlist History">
-                    <IconButton>
-                      <HistoryIcon />
-                    </IconButton>
-                  </Tooltip>
-                  {/* <Button
+      {/* <main className="" style={{ background: pageBg }}> */}
+      {crrStep == 0 ? (
+        <Grid container>
+          <Vectors
+            playlistVectors={playlistVectors}
+            setPlaylistVectors={setPlaylistVectors}
+          />
+          <FilterForm filterForm={filterForm} setFilterForm={setFilterForm} />
+          <Grid
+            item
+            md={12}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={2}
+            height={"72px"}
+          >
+            <Grid container>
+              <Grid item sm={4}>
+                <Tooltip title="Playlist History">
+                  <IconButton>
+                    <HistoryIcon />
+                  </IconButton>
+                </Tooltip>
+                {/* <Button
                     variant="outlined"
                     color="secondary"
                     sx={{
@@ -174,177 +165,177 @@ const Generator = () => {
                   >
                     Reset
                   </Button> */}
-                </Grid>
-                <Grid item sm={4}>
-                  <ActionButton
-                    variant="contained"
-                    onClick={() => {
-                      handleCreateBusinessPlaylist(user?.id);
-                    }}
-                    fontSize={20}
-                    sx={{
-                      maxHeight: "54px",
-                    }}
-                  >
-                    Generate Playlist
-                  </ActionButton>
-                </Grid>
-                <Grid item sm={4}></Grid>
               </Grid>
-            </Grid>
-          </Grid>
-        ) : crrStep == 1 ? (
-          <>
-            <Box
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              flexDirection={"column"}
-              textAlign={"center"}
-              height={"calc(100vh - 72px)"}
-              className={"fade-in-rtl"}
-            >
-              <Lottie
-                animationData={LottieLoading}
-                loop={true}
-                style={{
-                  height: 200,
-                  width: 450,
-                }}
-              />
-              <Typography textAlign={"center"} variant="h5" fontWeight={600}>
-                Your playlist is on the way!
-              </Typography>
-              <Typography textAlign={"center"}>
-                Good tunes take time :)
-              </Typography>
-            </Box>
-          </>
-        ) : (
-          <Box
-            display={"flex"}
-            flexDirection={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            height={"calc(100vh - 72px)"}
-            textAlign={"center"}
-            gap={1}
-          >
-            {celebrationIsPlaying && (
-              <div className="absolute-center">
-                <Lottie
-                  animationData={LottieCelebrate}
-                  loop={true}
-                  style={{
-                    height: 400,
-                    width: 650,
-                  }}
-                />
-              </div>
-            )}
-
-            <Grid container>
-              <Grid
-                item
-                sm={12}
-                md={12}
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-                alignItems={"center"}
-                gap={1}
-              >
-                <Typography variant="h4" fontWeight={700}>
-                  Your playlist is{" "}
-                  <Typography
-                    component="span"
-                    color={"primary.main"}
-                    variant="h4"
-                    fontWeight={700}
-                  >
-                    READY!
-                  </Typography>
-                  {/* <span style={{ fontSize: 40 }}>😼</span> */}
-                </Typography>
-                <Typography fontWeight={500}>
-                  Ta-da! Your playlist is now living its best life in your
-                  Spotify library.
-                  {/* <br /> Hit play and enjoy the music! */}
-                </Typography>
-                <Box
-                  display={"flex"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  gap={1}
-                  paddingY={1}
-                  paddingX={2}
-                  sx={{
-                    backgroundColor: "secondary.light",
-                    borderRadius: 4,
-                  }}
-                >
-                  <Typography color={"#757575"} sx={{ zIndex: 10 }}>
-                    {generatedPlaylist?.external_urls?.spotify}
-                  </Typography>
-                  <Button
-                    color={"highlight"}
-                    variant="contained"
-                    startIcon={
-                      isLinkCopied ? <CheckCircleIcon /> : <ContentCopyIcon />
-                    }
-                    onClick={() => {
-                      copyToClipboard(
-                        generatedPlaylist?.external_urls?.spotify
-                      );
-                      setIsLinkCopied(true);
-                    }}
-                    sx={{
-                      borderRadius: 99,
-                      textTransform: "capitalize",
-                      fontWeight: 600,
-                      color: "white",
-                    }}
-                  >
-                    Copy Link
-                  </Button>
-                </Box>
-              </Grid>
-              <Grid item sm={12} md={12} marginTop={2}>
-                <iframe
-                  style={{ borderRadius: "12px" }}
-                  src={
-                    generatedPlaylist?.external_urls?.spotify.slice(0, 25) +
-                    "embed/" +
-                    generatedPlaylist?.external_urls?.spotify.slice(25) +
-                    "?utm_source=generator"
-                  }
-                  width={isSmScreen ? "100%" : "75%"}
-                  height="360"
-                  frameBorder="0"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                ></iframe>
-              </Grid>
-              <Grid item sm={12} marginTop={2}>
+              <Grid item sm={4}>
                 <ActionButton
                   variant="contained"
                   onClick={() => {
-                    setCrrStep(0);
-                    setGeneratedPlaylist({});
+                    handleCreateBusinessPlaylist(user?.id);
                   }}
                   fontSize={20}
                   sx={{
                     maxHeight: "54px",
                   }}
                 >
-                  New Playlist
+                  Generate Playlist
                 </ActionButton>
               </Grid>
+              <Grid item sm={4}></Grid>
             </Grid>
+          </Grid>
+        </Grid>
+      ) : crrStep == 1 ? (
+        <>
+          <Box
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            flexDirection={"column"}
+            textAlign={"center"}
+            className={"absolute-fade-in-ltr absolute-center"}
+            sx={{
+              height: "100%",
+            }}
+          >
+            <Lottie
+              animationData={LottieLoading}
+              loop={true}
+              style={{
+                height: 200,
+                width: 450,
+              }}
+            />
+            <Typography textAlign={"center"} variant="h5" fontWeight={600}>
+              Your playlist is on the way!
+            </Typography>
+            <Typography textAlign={"center"}>
+              Good tunes take time :)
+            </Typography>
           </Box>
-        )}
-      </main>
+        </>
+      ) : (
+        <Box
+          display={"flex"}
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"space-around"}
+          textAlign={"center"}
+          height={"calc(100vh - 76px)"}
+          gap={1}
+        >
+          {celebrationIsPlaying && (
+            <div className="absolute-center">
+              <Lottie
+                animationData={LottieCelebrate}
+                loop={true}
+                style={{
+                  height: 400,
+                  width: 650,
+                }}
+              />
+            </div>
+          )}
+
+          <Grid container>
+            <Grid
+              item
+              sm={12}
+              md={12}
+              display={"flex"}
+              flexDirection={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+              gap={1}
+            >
+              <Typography variant="h4" fontWeight={700}>
+                Your playlist is{" "}
+                <Typography
+                  component="span"
+                  color={"primary.main"}
+                  variant="h4"
+                  fontWeight={700}
+                >
+                  READY!
+                </Typography>
+                {/* <span style={{ fontSize: 40 }}>😼</span> */}
+              </Typography>
+              <Typography fontWeight={500}>
+                Ta-da! Your playlist is now living its best life in your Spotify
+                library.
+                {/* <br /> Hit play and enjoy the music! */}
+              </Typography>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                gap={1}
+                paddingY={1}
+                paddingX={2}
+                sx={{
+                  backgroundColor: "secondary.light",
+                  borderRadius: 4,
+                }}
+              >
+                <Typography color={"#757575"} sx={{ zIndex: 10 }}>
+                  {generatedPlaylist?.external_urls?.spotify}
+                </Typography>
+                <Button
+                  color={"highlight"}
+                  variant="contained"
+                  startIcon={
+                    isLinkCopied ? <CheckCircleIcon /> : <ContentCopyIcon />
+                  }
+                  onClick={() => {
+                    copyToClipboard(generatedPlaylist?.external_urls?.spotify);
+                    setIsLinkCopied(true);
+                  }}
+                  sx={{
+                    borderRadius: 99,
+                    textTransform: "capitalize",
+                    fontWeight: 600,
+                    color: "white",
+                  }}
+                >
+                  Copy Link
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item sm={12} md={12} marginTop={2}>
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src={
+                  generatedPlaylist?.external_urls?.spotify.slice(0, 25) +
+                  "embed/" +
+                  generatedPlaylist?.external_urls?.spotify.slice(25) +
+                  "?utm_source=generator"
+                }
+                width={isSmScreen ? "100%" : "75%"}
+                height="360"
+                frameBorder="0"
+                allowFullScreen
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+              ></iframe>
+            </Grid>
+            <Grid item sm={12} marginTop={2}>
+              <ActionButton
+                variant="contained"
+                onClick={() => {
+                  setCrrStep(0);
+                  setGeneratedPlaylist({});
+                }}
+                fontSize={20}
+                sx={{
+                  maxHeight: "54px",
+                }}
+              >
+                New Playlist
+              </ActionButton>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
+      {/* </main> */}
     </Layout>
   );
 };

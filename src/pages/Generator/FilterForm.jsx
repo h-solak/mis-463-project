@@ -33,6 +33,7 @@ const OptionButton = ({ title, onClick, isActive, sx, disabled }) => {
         onClick={onClick}
         sx={Object.assign({}, sxSettings, sx)}
         disabled={disabled ? true : false}
+        className="opening-animation"
       >
         {title}
       </Button>

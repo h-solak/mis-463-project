@@ -8,13 +8,11 @@ const Playlist = ({ playlist }) => {
       xs={12}
       sm={6}
       md={4}
-      paddingX={1}
-      paddingY={1}
       onClick={() => {
         window.open(playlist.external_urls.spotify, "_blank");
       }}
       className="default-hvr w-100"
-      sx={{ cursor: "pointer" }}
+      sx={{ cursor: "pointer", backgroundColor: "secondary.light" }}
     >
       <Box display={"flex"} alignItems={"center"} gap={2}>
         {playlist?.images ? (

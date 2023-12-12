@@ -32,6 +32,8 @@ const BaseSlider = ({ value, onChange, label }) => {
         onChange={onChange}
         aria-label={label}
         valueLabelDisplay="off"
+        className="opening-animation"
+
         // marks={[
         //   {
         //     value: 34.7,

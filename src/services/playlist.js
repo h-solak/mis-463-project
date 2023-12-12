@@ -2,28 +2,61 @@ import axios from "axios";
 import { projectApiBaseAxios, spotifyApiBaseAxios } from "../api/axiosConfig";
 import { addItemsToPlaylist } from "./tracks";
 import toast from "react-hot-toast";
-import CoverImg from "../assets/tunemix.jpg";
+import CafeCoverImg from "../assets/images/playlistCovers/cafe.jpg";
+import BarCoverImg from "../assets/images/playlistCovers/bar.jpg";
+import ClubCoverImg from "../assets/images/playlistCovers/club.jpg";
+import CustomCoverImg from "../assets/images/playlistCovers/custom.jpg";
 import convertBase64 from "../utils/convertBase64";
+import OldCover from "../assets/tunemix.jpg";
 
-/*
-UserVectorSettings:
-DANCEABILITY = None
-ENERGY = None
-ACOUSTICNESS = None
-VALENCE = None
+const cafeVectorPreset = {
+  danceability: 37.4,
+  energy: 70.1,
+  acousticness: 55.8,
+  valence: 69.4,
+};
+const barVectorPreset = {
+  danceability: 76.9,
+  energy: 84.6,
+  acousticness: 58.2,
+  valence: 80.2,
+};
+const clubVectorPreset = {
+  danceability: 97.4,
+  energy: 85.7,
+  acousticness: 24.7,
+  valence: 81.8,
+};
 
+const areVectorsEqual = (v1, v2) => {
+  return JSON.stringify(v1) == JSON.stringify(v2);
+};
 
-*/
+const getPlaylistType = (vector) => {
+  if (areVectorsEqual(vector, cafeVectorPreset)) {
+    return "Cafe";
+  } else if (areVectorsEqual(vector, barVectorPreset)) {
+    return "Bar";
+  } else if (areVectorsEqual(vector, clubVectorPreset)) {
+    return "Club";
+  } else {
+    return "Your Own";
+  }
+};
+
 const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
   try {
+    const playlistType = getPlaylistType(playlistVectors);
+    console.log(playlistType);
+
     //create the playlist on spotify
     const playlistId = await createNewSpotifyPlaylist(
       user_id,
-      "Tunemix Playlist",
+      `Tunemix - ${playlistType} Playlist`,
       new Date().toLocaleDateString("en-US")
     );
 
-    await addCustomPlaylistCoverImg(playlistId, CoverImg);
+    await addCustomPlaylistCoverImg(playlistId, playlistType);
 
     //project API
     const res = await projectApiBaseAxios.post("/business-playlist", {
@@ -51,18 +84,31 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
   }
 };
 
-const addCustomPlaylistCoverImg = async (playlistId, img) => {
-  const base64Img = await convertBase64(img);
-  await axios.put(
-    `https://api.spotify.com/v1/playlists/${playlistId}/images`,
-    base64Img,
-    {
-      headers: {
-        "Content-Type": "image/jpeg",
-        Authorization: `Bearer ${localStorage.getItem("tunemix-auth")}`,
-      },
-    }
-  );
+const addCustomPlaylistCoverImg = async (playlistId, playlistType) => {
+  try {
+    const coverImg =
+      playlistType == "Cafe"
+        ? CafeCoverImg
+        : playlistType == "Bar"
+        ? BarCoverImg
+        : playlistType == "Club"
+        ? ClubCoverImg
+        : CustomCoverImg;
+    console.log(OldCover, coverImg);
+    const base64Img = await convertBase64(coverImg);
+    await axios.put(
+      `https://api.spotify.com/v1/playlists/${playlistId}/images`,
+      base64Img,
+      {
+        headers: {
+          "Content-Type": "image/jpeg",
+          Authorization: `Bearer ${localStorage.getItem("tunemix-auth")}`,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const createNewSpotifyPlaylist = async (user_id, name, description) => {

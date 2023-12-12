@@ -46,7 +46,7 @@ const Home = () => {
                 Your playlists ({user?.playlists?.total})
               </Typography>
             </Grid>
-            <Grid container className="mt-4">
+            <Grid container className="mt-4" spacing={1}>
               {user?.playlists?.items.map((playlist, index) => (
                 <Playlist playlist={playlist} key={index} />
               ))}

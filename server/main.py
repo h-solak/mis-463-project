@@ -17,9 +17,10 @@ user_vector_energy = float(sys.argv[2]) / 100.0
 user_vector_acousticness = float(sys.argv[3]) / 100.0
 user_vector_valence = float(sys.argv[4]) / 100.0
 user_popularity =  None if sys.argv[5] == "None" else sys.argv[5]
-user_timeSignature =  None if sys.argv[6] == "None" else sys.argv[6]
-# user_key =  None if sys.argv[7] == "None" else sys.argv[7]
-user_mode =  None if sys.argv[8] == "None" else int(sys.argv[8])
+user_timeSignature =  None if sys.argv[8] == "None" else json.loads(sys.argv[6])
+user_key =  None if sys.argv[7] == "None" else json.loads(sys.argv[7])
+user_mode =  None if sys.argv[8] == "None" else json.loads(sys.argv[8])
+#??????????????????????????????????????????????????????????????????????
 user_speechy =  sys.argv[9]
 user_instrumental =  None if sys.argv[10] == "None" else sys.argv[10]
 user_live =  None if sys.argv[11] == "None" else sys.argv[11]
@@ -338,7 +339,7 @@ UserFilterSettings.POPULARITY = user_popularity
 UserFilterSettings.MIN_DURATION_OF_EACH_TRACK = None
 UserFilterSettings.MAX_DURATION_OF_EACH_TRACK = None
 UserFilterSettings.TIME_SIGNATURE = user_timeSignature
-UserFilterSettings.KEY = None
+UserFilterSettings.KEY = user_key
 UserFilterSettings.MIN_TEMPO_OF_EACH_TRACK = None
 UserFilterSettings.MAX_TEMPO_OF_EACH_TRACK = None
 UserFilterSettings.MODE = user_mode

@@ -60,24 +60,53 @@ const filterFormValues = [
         value: "None",
       },
       {
-        title: "A",
-        value: "A",
-      },
-      {
-        title: "B",
-        value: "B",
-      },
-      {
         title: "C",
-        value: "C",
+        value: "0",
+      },
+      {
+        title: "C#",
+        value: "1",
       },
       {
         title: "D",
-        value: "D",
+        value: "2",
       },
       {
+        title: "D#",
+        value: "3",
+      },
+
+      {
         title: "E",
-        value: "E",
+        value: "4",
+      },
+      {
+        title: "F",
+        value: "5",
+      },
+      {
+        title: "F#",
+        value: "6",
+      },
+      {
+        title: "G",
+        value: "7",
+      },
+      {
+        title: "G#",
+        value: "8",
+      },
+      {
+        title: "A",
+        value: "9",
+      },
+      {
+        title: "A#",
+        value: "10",
+      },
+      {
+        title: "B",
+        value: "11",
       },
     ],
   },

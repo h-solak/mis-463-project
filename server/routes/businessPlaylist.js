@@ -14,9 +14,11 @@ router.post("/", async (req, res) => {
     playlistVectors?.acousticness,
     playlistVectors?.valence,
     filterForm?.popularity,
-    filterForm?.timeSignature,
-    filterForm?.key,
-    filterForm?.mode,
+    filterForm?.timeSignature === "None"
+      ? "None"
+      : JSON.stringify([filterForm?.timeSignature]),
+    filterForm?.key === "None" ? "None" : JSON.stringify([filterForm?.key]),
+    filterForm?.mode === "None" ? "None" : JSON.stringify([filterForm?.mode]),
     filterForm?.speechy,
     filterForm?.instrumental,
     filterForm?.live,
@@ -37,16 +39,17 @@ router.post("/", async (req, res) => {
 
   pythonProcess.on("close", (code) => {
     if (code === 0) {
-      const newResult = JSON.parse(result);
-      res.status(200).json({ playlist: JSON.parse(result) });
+      try {
+        const newResult = JSON.parse(result);
+        res.status(200).json({ playlist: newResult });
+      } catch (err) {
+        console.log("what?", err);
+        res.status(500).send(`Something went horribly wrong!`);
+      }
     } else {
       res.status(500).send(`Python script exited with code ${code}`);
     }
   });
-});
-
-router.get("/", async (req, res) => {
-  res.status(200).json({ success: true });
 });
 
 module.exports = router;

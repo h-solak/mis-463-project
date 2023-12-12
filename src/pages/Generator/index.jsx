@@ -247,7 +247,7 @@ const Generator = () => {
               alignItems={"center"}
               gap={1}
             >
-              <Typography variant="h4" fontWeight={700}>
+              <Typography variant="h4" fontWeight={700} className="fade-in-ltr">
                 Your playlist is{" "}
                 <Typography
                   component="span"
@@ -259,7 +259,7 @@ const Generator = () => {
                 </Typography>
                 {/* <span style={{ fontSize: 40 }}>😼</span> */}
               </Typography>
-              <Typography fontWeight={500}>
+              <Typography fontWeight={500} className="fade-in-rtl">
                 Ta-da! Your playlist is now living its best life in your Spotify
                 library.
                 {/* <br /> Hit play and enjoy the music! */}
@@ -275,6 +275,7 @@ const Generator = () => {
                   backgroundColor: "secondary.light",
                   borderRadius: 4,
                 }}
+                className="opening-animation"
               >
                 <Typography color={"#757575"} sx={{ zIndex: 10 }}>
                   {generatedPlaylist?.external_urls?.spotify}
@@ -300,7 +301,13 @@ const Generator = () => {
                 </Button>
               </Box>
             </Grid>
-            <Grid item sm={12} md={12} marginTop={2}>
+            <Grid
+              item
+              sm={12}
+              md={12}
+              marginTop={2}
+              className="opening-animation"
+            >
               <iframe
                 style={{ borderRadius: "12px" }}
                 src={

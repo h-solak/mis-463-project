@@ -126,7 +126,6 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
                   ? {
                       backgroundImage:
                         "linear-gradient(90deg,#00c0ff 0%,#ffcf00 49%,#fc4f4f 100%)",
-                      boxShadow: "0px 21px 15px -3px rgba(0,0,0,0.15)",
                     }
                   : null
               }

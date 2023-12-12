@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+server/Database/Implement/tracks_to_filter.csv
+server/Database/Implement/tracks_to_vectorize.csv

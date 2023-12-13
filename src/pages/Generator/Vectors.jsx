@@ -92,6 +92,7 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
           variant="h3"
           color={"primary.main"}
           fontWeight={700}
+          className="fade-in-ltr"
         >
           {vectorType}
         </Typography>

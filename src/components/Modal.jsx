@@ -12,7 +12,8 @@ const BaseModal = ({ isModalOpen, setIsModalOpen, children }) => {
         flexDirection={"column"}
         alignItems={"center"}
         sx={{ background: "#fff" }}
-        className="absolute-center rounded"
+        className="absolute-center"
+        borderRadius={8}
         padding={5}
         onClick={(e) => e.stopPropagation()}
       >

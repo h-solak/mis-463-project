@@ -84,10 +84,25 @@ const Layout = ({ children }) => {
   return (
     <>
       <Grid container display={"flex"} justifyContent={"center"}>
-        <Grid item xs={12} lg={11} xl={window.innerWidth > 1600 ? 7 : 10}>
-          <Box>
-            {/* Navbar */}
-            <Box
+        <Grid
+          item
+          xs={12}
+          sx={{
+            borderBottom: user?.id ? 3 : 0,
+            borderBottomColor: "#00000010",
+          }}
+        >
+          {/* Navbar */}
+          <Grid
+            container
+            display={"flex"}
+            justifyContent={"center"}
+            sx={{ zIndex: 9999 }}
+          >
+            <Grid
+              xs={12}
+              xl={window.innerWidth > 1600 ? 7 : 10}
+              item
               ref={navbarRef}
               display={"flex"}
               alignItems={"center"}
@@ -95,11 +110,12 @@ const Layout = ({ children }) => {
               paddingX={6}
               sx={{
                 height: "72px",
-                borderBottom: user?.id ? 3 : 0,
-                borderBottomColor: "#00000010",
               }}
             >
-              <h3 onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+              <h3
+                onClick={() => navigate("/generator")}
+                style={{ cursor: "pointer" }}
+              >
                 <img src={Logo} width="150" alt="logo" />
               </h3>
 
@@ -116,6 +132,20 @@ const Layout = ({ children }) => {
                 ) : (
                   <Box display={"flex"} alignItems={"center"} gap={2}>
                     <Button
+                      onClick={() => navigate("/generator")}
+                      sx={{
+                        color:
+                          window.location.pathname.slice(1) == "generator"
+                            ? "primary.main"
+                            : "dark.main",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      Generate
+                    </Button>
+                    <Button
                       onClick={() => navigate("/")}
                       sx={{
                         color:
@@ -130,20 +160,7 @@ const Layout = ({ children }) => {
                     >
                       My Playlists
                     </Button>
-                    <Button
-                      onClick={() => navigate("/generator")}
-                      sx={{
-                        color:
-                          window.location.pathname.slice(1) == "generator"
-                            ? "primary.main"
-                            : "dark.main",
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      Generate
-                    </Button>
+
                     <Button
                       onClick={() => navigate("/playlist-analyzer")}
                       sx={{
@@ -159,7 +176,7 @@ const Layout = ({ children }) => {
                     >
                       Analyze
                     </Button>
-                    <Button
+                    {/* <Button
                       onClick={() => navigate("/shuffle")}
                       sx={{
                         color:
@@ -172,7 +189,7 @@ const Layout = ({ children }) => {
                       }}
                     >
                       Shuffle
-                    </Button>
+                    </Button> */}
                     <Button
                       onClick={(e) => setAnchorEl(e.currentTarget)}
                       startIcon={
@@ -199,8 +216,11 @@ const Layout = ({ children }) => {
                   </Box>
                 )
               ) : null}
-            </Box>
-
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} xl={window.innerWidth > 1600 ? 7 : 10}>
+          <Box>
             {/* Page */}
             {isLoading ? (
               <Loader className={"absolute-center"} />

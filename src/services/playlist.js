@@ -8,6 +8,7 @@ import ClubCoverImg from "../assets/images/playlistCovers/club.jpg";
 import CustomCoverImg from "../assets/images/playlistCovers/custom.jpg";
 import convertBase64 from "../utils/convertBase64";
 import OldCover from "../assets/tunemix.jpg";
+import dayjs from "dayjs";
 
 const cafeVectorPreset = {
   danceability: 37.4,
@@ -46,14 +47,22 @@ const getPlaylistType = (vector) => {
 
 const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
   try {
+    let playlistDate = new Date();
+    playlistDate = dayjs(playlistDate).format("DD/MM/YYYY");
     const playlistType = getPlaylistType(playlistVectors);
     console.log(playlistType);
+
+    const uselessres = await axios.get(
+      "https://uselessfacts.jsph.pl/api/v2/facts/random"
+    );
+    console.log(uselessres);
 
     //create the playlist on spotify
     const playlistId = await createNewSpotifyPlaylist(
       user_id,
       `Tunemix - ${playlistType} Playlist`,
-      new Date().toLocaleDateString("en-US")
+      uselessres?.data?.text
+      // `Generated at ${playlistDate}`
     );
 
     await addCustomPlaylistCoverImg(playlistId, playlistType);

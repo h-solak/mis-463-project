@@ -38,22 +38,26 @@ const Home = () => {
 
   return (
     <Layout>
-      <main className="p-4">
+      <Box paddingBottom={4}>
         {user?.playlists ? (
-          <Grid container className="card-container mt-4">
-            <Grid item xs={12}>
-              <Typography color={"secondary.main"} fontWeight={500}>
-                Your playlists ({user?.playlists?.total})
+          <Grid container>
+            <Grid item xs={12} marginTop={2}>
+              <Typography variant="h6" fontWeight={600} className="fade-in-ltr">
+                Playlists
+              </Typography>
+              <Typography className="fade-in-rtl">
+                Tap into the tunes! Click on the playlist to journey straight to
+                your Spotify library.
               </Typography>
             </Grid>
-            <Grid container className="mt-4" spacing={1}>
+            <Grid container marginTop={0} spacing={2}>
               {user?.playlists?.items.map((playlist, index) => (
                 <Playlist playlist={playlist} key={index} />
               ))}
             </Grid>
           </Grid>
         ) : null}
-      </main>
+      </Box>
     </Layout>
   );
 };

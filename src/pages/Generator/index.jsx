@@ -147,7 +147,7 @@ const Generator = () => {
             height={"72px"}
           >
             <Grid container>
-              <Grid item sm={4}>
+              <Grid item sm={4} display={"flex"} alignItems={"center"}>
                 <Tooltip title="Playlist History">
                   <IconButton>
                     <HistoryIcon />
@@ -166,7 +166,7 @@ const Generator = () => {
                     Reset
                   </Button> */}
               </Grid>
-              <Grid item sm={4}>
+              <Grid item sm={4} display={"flex"} justifyContent={"center"}>
                 <ActionButton
                   variant="contained"
                   onClick={() => {
@@ -197,20 +197,24 @@ const Generator = () => {
               height: "100%",
             }}
           >
+            <Box marginBottom={-10}>
+              <Typography textAlign={"center"} variant="h6" fontWeight={600}>
+                Your playlist is on the way!
+              </Typography>
+            </Box>
+
             <Lottie
               animationData={LottieLoading}
               loop={true}
               style={{
-                height: 200,
-                width: 450,
+                width: 350,
               }}
             />
-            <Typography textAlign={"center"} variant="h5" fontWeight={600}>
-              Your playlist is on the way!
-            </Typography>
-            <Typography textAlign={"center"}>
-              Good tunes take time :)
-            </Typography>
+            <Box marginTop={-8}>
+              <Typography textAlign={"center"}>
+                Good tunes take time :)
+              </Typography>
+            </Box>
           </Box>
         </>
       ) : (

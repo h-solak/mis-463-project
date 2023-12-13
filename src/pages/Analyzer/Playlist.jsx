@@ -1,6 +1,5 @@
 import { Box, Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import React, { useState } from "react";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { getPlaylistAudioFeatures } from "../../services/analyzer";
 import Modal from "../../components/Modal";
 import { BarChart } from "@mui/x-charts/BarChart";
@@ -18,7 +17,7 @@ const Playlist = ({ playlist }) => {
         setAudioFeatures(res);
         setDisplayAnalyze(true);
         handleChartData(res);
-        //acousticness, danceability, instrumentalness, liveness
+        //valence, energy, acousticness, danceability
       }
     } else {
       toast.error("The playlist shouldn't contain more than 50 songs!");
@@ -26,86 +25,85 @@ const Playlist = ({ playlist }) => {
   };
 
   const handleChartData = (res) => {
+    let valence = 0;
+    let energy = 0;
     let acousticness = 0;
     let danceability = 0;
-    let instrumentalness = 0;
-    let liveness = 0;
     const totalTracks = playlist?.tracks?.total;
 
     res?.map((item) => {
+      valence += item.valence;
+      energy += item.energy;
       acousticness += item.acousticness;
       danceability += item.danceability;
-      instrumentalness += item.instrumentalness;
-      liveness += item.liveness;
     });
 
+    valence /= totalTracks;
+    energy /= totalTracks;
     acousticness /= totalTracks;
     danceability /= totalTracks;
-    instrumentalness /= totalTracks;
-    liveness /= totalTracks;
 
     setChartData([
-      {
-        name: "Acstc",
-        value: acousticness,
-      },
       {
         name: "Dance",
         value: danceability,
       },
       {
-        name: "Instr",
-        value: instrumentalness,
+        name: "Energy",
+        value: energy,
+      },
+
+      {
+        name: "Acoust",
+        value: acousticness,
       },
       {
-        name: "Live",
-        value: liveness,
+        name: "Happy",
+        value: valence,
       },
     ]);
   };
 
   return (
-    <Grid
-      item
-      paddingX={1}
-      paddingY={1}
-      className="w-100"
-      sx={{ cursor: "pointer" }}
-    >
+    <Grid item xs={12} sm={6} md={4} sx={{ cursor: "pointer" }}>
       <Box
         display={"flex"}
         alignItems={"center"}
-        justifyContent={"space-between"}
+        gap={2}
+        paddingRight={2}
+        sx={{
+          backgroundColor: "secondary.light",
+          borderRadius: "64px",
+          "&:hover": {
+            backgroundColor: "#00000020",
+            boxShadow: "none",
+          },
+        }}
+        onClick={() => handleAnalyze(playlist?.id)}
       >
-        <Box display={"flex"} alignItems={"center"} gap={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            height={70}
-            onClick={() => handleAnalyze(playlist?.id)}
-          >
-            <QueryStatsIcon />
-          </Button>
-
-          {playlist?.images ? (
-            <img
-              src={playlist?.images[0]?.url || "https://cataas.com/cat"}
-              width={50}
-              height={50}
-              alt=""
-            />
-          ) : null}
-          <div className="d-flex flex-column">
-            <h6>{playlist.name}</h6>
-            {playlist?.description ? (
-              <h6 className="text-secondary" style={{ fontSize: 10 }}>
-                {playlist.description}
-              </h6>
-            ) : null}
-            <h6 className="text-secondary" style={{ fontSize: 14 }}>
-              {playlist.tracks.total} tracks
+        {playlist?.images ? (
+          <img
+            src={playlist?.images[0]?.url || "https://cataas.com/cat"}
+            width={75}
+            height={75}
+            alt=""
+            style={{
+              borderRadius: "64px 0px 0px 64px",
+            }}
+          />
+        ) : null}
+        <Box display={"flex"} alignItems={"start"} flexDirection={"column"}>
+          <Typography fontSize={14} fontWeight={600}>
+            {playlist.name}
+          </Typography>
+          {/* {playlist?.description ? (
+            <h6 className="text-secondary" style={{ fontSize: 10 }}>
+              {playlist.description.toString().slice(0, 44)}
             </h6>
-          </div>
+          ) : null} */}
+          <Typography style={{ fontSize: 12 }}>
+            {playlist.tracks.total} tracks
+          </Typography>
         </Box>
       </Box>
 
@@ -125,6 +123,10 @@ const Playlist = ({ playlist }) => {
             layout="horizontal"
             width={isSmScreen ? 300 : 600}
             height={isSmScreen ? 200 : 400}
+            sx={{
+              fillShadowGradient: "#ff0000",
+            }}
+            colors={["#15A649"]}
           />
         </Modal>
       ) : null}

@@ -16,6 +16,7 @@
     "@mui/material": "^5.14.11",
     "@mui/x-charts": "^6.0.0-alpha.17",
     "axios": "^1.5.1",
+    "dayjs": "^1.11.10",
     "localforage": "^1.10.0",
     "lottie-react": "^2.4.0",
     "match-sorter": "^6.3.1",

@@ -140,7 +140,12 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
         overflowY: "scroll",
       }}
     >
-      <Typography fontSize={28} color={"primary.main"} fontWeight={700}>
+      <Typography
+        fontSize={28}
+        color={"primary.main"}
+        fontWeight={700}
+        className="fade-in-rtl"
+      >
         Filters
       </Typography>
       {/* Popularity */}

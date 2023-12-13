@@ -20,21 +20,37 @@ import {
 import { setAccessToken } from "../../api/axiosConfig";
 import Playlist from "./Playlist";
 import { createBusinessPlaylist } from "../../services/playlist";
+import Lottie from "lottie-react";
+import LottiePageLoader from "../../assets/lottiePageLoader.json";
 
 const Home = () => {
   const navigate = useNavigate();
   const { user, setUser } = useUser();
-  const [isPlaylistLoading, setIsPlaylistLoading] = useState(false);
+  const [isPlaylistLoading, setIsPlaylistLoading] = useState(true);
   const isSmScreen = useMediaQuery("(max-width:900px)");
 
-  const handleCreateRandomPlaylist = async () => {
-    await createRandomPlaylist(user?.id, "TuneMix Random Playlist");
+  // const handleCreateRandomPlaylist = async () => {
+  //   await createRandomPlaylist(user?.id, "TuneMix Random Playlist");
+  //   const playlists = await getPlaylists(user?.id);
+  //   setUser({
+  //     ...user,
+  //     playlists: playlists,
+  //   });
+  // };
+
+  const handleGetPlaylists = async () => {
+    setIsPlaylistLoading(true);
     const playlists = await getPlaylists(user?.id);
     setUser({
       ...user,
       playlists: playlists,
     });
+    setIsPlaylistLoading(false);
   };
+
+  useEffect(() => {
+    handleGetPlaylists();
+  }, []);
 
   return (
     <Layout>
@@ -51,9 +67,20 @@ const Home = () => {
               </Typography>
             </Grid>
             <Grid container marginTop={0} spacing={2}>
-              {user?.playlists?.items.map((playlist, index) => (
-                <Playlist playlist={playlist} key={index} />
-              ))}
+              {isPlaylistLoading ? (
+                <Lottie
+                  animationData={LottiePageLoader}
+                  loop={true}
+                  className="absolute-center"
+                  style={{
+                    width: 200,
+                  }}
+                />
+              ) : (
+                user?.playlists?.items?.map((playlist, index) => (
+                  <Playlist playlist={playlist} key={index} />
+                ))
+              )}
             </Grid>
           </Grid>
         ) : null}

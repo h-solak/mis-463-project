@@ -61,7 +61,7 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
     const playlistId = await createNewSpotifyPlaylist(
       user_id,
       `Tunemix - ${playlistType} Playlist`,
-      uselessres?.data?.text
+      `Useless fun fact: ${uselessres?.data?.text}`
       // `Generated at ${playlistDate}`
     );
 

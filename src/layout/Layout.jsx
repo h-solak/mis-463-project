@@ -15,11 +15,11 @@ import {
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from "../contexts/user/useUser";
-import { SPOTIFY_AUTH_LINK, getCrrUser, getPlaylists } from "../services/user";
+import { getCrrUser, getPlaylists } from "../services/user";
 import { setAccessToken } from "../api/axiosConfig";
-import Loader from "../components/Loader";
 import Landing from "../components/Landing";
 import { Logo } from "../assets/images";
+import LottiePageLoader from "../assets/lottiePageLoader.json";
 
 /* Icons */
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -28,6 +28,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
+import Lottie from "lottie-react";
 const Layout = ({ children }) => {
   const navbarRef = useRef(null);
   const isSmScreen = useMediaQuery("(max-width:900px)");
@@ -223,7 +224,14 @@ const Layout = ({ children }) => {
           <Box>
             {/* Page */}
             {isLoading ? (
-              <Loader className={"absolute-center"} />
+              <Lottie
+                animationData={LottiePageLoader}
+                loop={true}
+                className="absolute-center"
+                style={{
+                  width: 200,
+                }}
+              />
             ) : user?.id ? (
               <Box
                 paddingX={4}

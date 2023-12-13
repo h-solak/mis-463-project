@@ -15,7 +15,7 @@ const Shuffle = () => {
           correctly!
         </p>
         <div className="w-100 w-md-50 px-4 d-flex flex-column align-items-start mt-4">
-          {user?.playlists?.items.map((playlist, index) => (
+          {user?.playlists?.items?.map((playlist, index) => (
             <Playlist playlist={playlist} key={index} />
           ))}
         </div>

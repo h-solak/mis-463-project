@@ -339,35 +339,73 @@ const Layout = ({ children }) => {
           },
         }}
       >
-        <List sx={{ padding: 2 }}>
-          <Box sx={{ width: "100%" }} display={"flex"} justifyContent={"end"}>
-            <CloseIcon
-              onClick={() => setIsDrawerOpen(false)}
-              sx={{ fontSize: 28 }}
-            />
+        <List sx={{}}>
+          <Box
+            sx={{
+              paddingX: 2,
+            }}
+            display={"flex"}
+            justifyContent={"end"}
+          >
+            <IconButton>
+              <CloseIcon
+                onClick={() => setIsDrawerOpen(false)}
+                sx={{ fontSize: 28 }}
+              />
+            </IconButton>
           </Box>
           {user?.id ? (
             <>
-              <ListItem
+              <ListItemButton
                 sx={{
                   paddingY: 2,
+                  paddingX: 4,
                   textAlign: "start",
                   fontWeight: "700",
                   borderBottom: 1,
                   borderColor: "divider",
+                  gap: 1,
                 }}
               >
+                <img
+                  src={user?.images[1].url}
+                  width={22}
+                  height={22}
+                  style={{ borderRadius: 99 }}
+                />
                 {user?.display_name || "My Profile"}
-              </ListItem>
-              <ListItem
-                sx={{ textAlign: "start", paddingY: 2 }}
-                onClick={() => navigate("/")}
+              </ListItemButton>
+              <ListItemButton
+                sx={{ textAlign: "start", paddingY: 2, paddingX: 4 }}
+                onClick={() => {
+                  navigate("/generator");
+                  setIsDrawerOpen(false);
+                }}
               >
                 <ListItemText primary="Generate Playlists" />
-              </ListItem>
-              <ListItem
+              </ListItemButton>
+              <ListItemButton
+                sx={{ textAlign: "start", paddingY: 2, paddingX: 4 }}
+                onClick={() => {
+                  navigate("/");
+                  setIsDrawerOpen(false);
+                }}
+              >
+                <ListItemText primary="My Playlists" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ textAlign: "start", paddingY: 2, paddingX: 4 }}
+                onClick={() => {
+                  navigate("/playlist-analyzer");
+                  setIsDrawerOpen(false);
+                }}
+              >
+                <ListItemText primary="Analyze Playlists" />
+              </ListItemButton>
+              <ListItemButton
                 sx={{
                   paddingY: 2,
+                  paddingX: 4,
                 }}
                 onClick={() => {
                   setIsDrawerOpen(false);
@@ -385,7 +423,7 @@ const Layout = ({ children }) => {
                 }}
               >
                 <ListItemText primary={"Logout"} />
-              </ListItem>
+              </ListItemButton>
             </>
           ) : (
             <>

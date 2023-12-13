@@ -129,11 +129,11 @@ const Playlist = ({ playlist }) => {
             alt="logo"
             style={{
               position: "absolute",
-              left: "80%",
-              bottom: -4,
+              left: "90%",
+              bottom: -6,
               transform: "translateX(-50%)",
               background: "#fff",
-              borderRadius: 99,
+              borderRadius: 8,
             }}
           />
         )}

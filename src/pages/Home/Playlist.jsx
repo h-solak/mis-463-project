@@ -1,7 +1,8 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
-
+import TunemixLogo from "../../assets/pngLogo.png";
 const Playlist = ({ playlist }) => {
+  const isTunemixGenerated = playlist?.name?.includes("Tunemix");
   return (
     <Grid
       item
@@ -18,10 +19,16 @@ const Playlist = ({ playlist }) => {
         alignItems={"center"}
         gap={2}
         sx={{
-          backgroundColor: "secondary.light",
+          position: "relative",
+          backgroundColor: "",
           borderRadius: "64px",
+          backgroundColor: isTunemixGenerated
+            ? "primary.main"
+            : "secondary.light",
           "&:hover": {
-            backgroundColor: "#00000020",
+            backgroundColor: isTunemixGenerated
+              ? "highlight.main"
+              : "#00000020",
             boxShadow: "none",
           },
         }}
@@ -38,7 +45,11 @@ const Playlist = ({ playlist }) => {
           />
         ) : null}
         <Box display={"flex"} alignItems={"start"} flexDirection={"column"}>
-          <Typography fontSize={14} fontWeight={600}>
+          <Typography
+            fontSize={14}
+            fontWeight={600}
+            color={isTunemixGenerated ? "#fff" : ""}
+          >
             {playlist.name}
           </Typography>
           {/* {playlist?.description ? (
@@ -46,10 +57,28 @@ const Playlist = ({ playlist }) => {
               {playlist.description.toString().slice(0, 44)}
             </h6>
           ) : null} */}
-          <Typography style={{ fontSize: 12 }}>
+          <Typography
+            style={{ fontSize: 12 }}
+            color={isTunemixGenerated ? "#fff" : ""}
+          >
             {playlist.tracks.total} tracks
           </Typography>
         </Box>
+        {isTunemixGenerated && (
+          <img
+            src={TunemixLogo}
+            width={100}
+            alt="logo"
+            style={{
+              position: "absolute",
+              left: "80%",
+              bottom: -4,
+              transform: "translateX(-50%)",
+              background: "#fff",
+              borderRadius: 99,
+            }}
+          />
+        )}
       </Box>
     </Grid>
   );

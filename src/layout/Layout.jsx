@@ -1,10 +1,12 @@
 import {
   Box,
   Button,
+  Drawer,
   Grid,
   IconButton,
   Link,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -20,6 +22,7 @@ import { setAccessToken } from "../api/axiosConfig";
 import Landing from "../components/Landing";
 import { Logo } from "../assets/images";
 import LottiePageLoader from "../assets/lottiePageLoader.json";
+import Lottie from "lottie-react";
 
 /* Icons */
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -28,12 +31,13 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
-import Lottie from "lottie-react";
+import CloseIcon from "@mui/icons-material/Close";
 const Layout = ({ children }) => {
   const navbarRef = useRef(null);
   const isSmScreen = useMediaQuery("(max-width:900px)");
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { user, setUser } = useUser();
 
@@ -122,7 +126,7 @@ const Layout = ({ children }) => {
 
               {isLoading ? null : user?.id ? (
                 isSmScreen ? (
-                  <IconButton>
+                  <IconButton onClick={() => setIsDrawerOpen(true)}>
                     <MenuIcon
                       sx={{
                         fontSize: 28,
@@ -324,6 +328,85 @@ const Layout = ({ children }) => {
           </ListItemButton>
         </List>
       </Popover>
+      <Drawer
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        sx={{
+          width: "100%",
+          "& .MuiDrawer-paper": {
+            width: "100%",
+          },
+        }}
+      >
+        <List sx={{ padding: 2 }}>
+          <Box sx={{ width: "100%" }} display={"flex"} justifyContent={"end"}>
+            <CloseIcon
+              onClick={() => setIsDrawerOpen(false)}
+              sx={{ fontSize: 28 }}
+            />
+          </Box>
+          {user?.id ? (
+            <>
+              <ListItem
+                sx={{
+                  paddingY: 2,
+                  textAlign: "start",
+                  fontWeight: "700",
+                  borderBottom: 1,
+                  borderColor: "divider",
+                }}
+              >
+                {user?.display_name || "My Profile"}
+              </ListItem>
+              <ListItem
+                sx={{ textAlign: "start", paddingY: 2 }}
+                onClick={() => navigate("/")}
+              >
+                <ListItemText primary="Generate Playlists" />
+              </ListItem>
+              <ListItem
+                sx={{
+                  paddingY: 2,
+                }}
+                onClick={() => {
+                  setIsDrawerOpen(false);
+                  setUser({});
+                  localStorage.removeItem("tunemix-auth");
+                  window.history.pushState(
+                    "object or string",
+                    "Title",
+                    "/" +
+                      window.location.href
+                        .substring(window.location.href.lastIndexOf("/") + 1)
+                        .split("?")[0]
+                  );
+                  navigate("/");
+                }}
+              >
+                <ListItemText primary={"Logout"} />
+              </ListItem>
+            </>
+          ) : (
+            <>
+              {/* <ListItem
+                onClick={() => {
+                  setIsDrawerOpen(false);
+                }}
+              >
+                <ListItemText primary={t("login")} />
+              </ListItem>
+              <ListItem
+                onClick={() => {
+                  setIsDrawerOpen(false);
+                }}
+              >
+                <ListItemText primary={t("signUp")} />
+              </ListItem> */}
+            </>
+          )}
+        </List>
+      </Drawer>
     </>
   );
 };

@@ -7,8 +7,14 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React, { useEffect } from "react";
-import { filterFormValues, defaultGenres } from "./FilterFormValues";
+import {
+  filterFormValues,
+  defaultGenres,
+  keysSection,
+  timeSignatureSection,
+} from "./FilterFormValues";
 import { CheckBox } from "@mui/icons-material";
+import toast from "react-hot-toast";
 
 const OptionButton = ({ title, onClick, isActive, sx, disabled }) => {
   const sxSettings = {
@@ -16,7 +22,6 @@ const OptionButton = ({ title, onClick, isActive, sx, disabled }) => {
     color: isActive ? "#fff" : "#000",
     borderRadius: 99,
     textTransform: "capitalize",
-    border: 0,
     boxShadow: "none",
     border: 2,
     borderColor: isActive ? "primary.main" : "transparent",
@@ -43,14 +48,33 @@ const OptionButton = ({ title, onClick, isActive, sx, disabled }) => {
 
 const OptionContainer = ({ children, title }) => {
   return (
+    <Grid container marginTop={2}>
+      <Grid item xs={12}>
+        <Typography fontWeight={600}>{title}</Typography>
+      </Grid>
+      <Grid container spacing={1} marginTop={0} alignItems={"center"}>
+        {children}
+      </Grid>
+    </Grid>
+  );
+};
+
+const multipleOptionsContainer = ({ children, title }) => {
+  return (
     <Grid container spacing={1} marginTop={2}>
-      <Grid item md={12}>
+      <Grid item xs={12}>
         <Typography fontWeight={600}>{title}</Typography>
       </Grid>
       {children}
     </Grid>
   );
 };
+
+function isSameArr(arr1, arr2) {
+  return (
+    JSON.stringify(arr1.slice().sort()) === JSON.stringify(arr2.slice().sort())
+  );
+}
 
 const FilterForm = ({ filterForm, setFilterForm }) => {
   const isSmScreen = useMediaQuery("(max-width:900px)");
@@ -127,6 +151,8 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
     }
   };
 
+  useEffect(() => console.log(filterForm.key), [filterForm]);
+
   return (
     <Grid
       item
@@ -151,16 +177,195 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
       {/* Popularity */}
 
       {filterFormValues.map((section, index) => (
-        <OptionContainer key={index} title={section.title}>
-          {section.options.map((option, index) => (
-            <OptionButton
-              key={index}
-              title={option.title}
-              onClick={() => handleAllChanges(option.value, section.title)}
-              isActive={filterForm[section.stateTitle] === option.value}
-            />
-          ))}
-        </OptionContainer>
+        <>
+          <OptionContainer key={index} title={section.title}>
+            {section.options.map((option, index) => (
+              <OptionButton
+                key={index}
+                title={option.title}
+                onClick={() => handleAllChanges(option.value, section.title)}
+                isActive={filterForm[section.stateTitle] === option.value}
+              />
+            ))}
+          </OptionContainer>
+          {/* Time Signature Section */}
+
+          {index == 0 && (
+            <OptionContainer title={"Time Signature"}>
+              <OptionButton
+                title={
+                  filterForm?.timeSignature?.length === 4 ? "All" : "Select All"
+                }
+                isActive={filterForm?.timeSignature?.length === 4}
+                onClick={() =>
+                  setFilterForm((oldFilterForm) => ({
+                    ...oldFilterForm,
+                    timeSignature: [3, 4, 5, 7],
+                  }))
+                }
+              />
+              {timeSignatureSection.options.map((option, index) => (
+                <OptionButton
+                  key={index}
+                  title={option.title}
+                  isActive={filterForm.timeSignature.includes(option.value)}
+                  sx={{
+                    backgroundColor:
+                      filterForm.timeSignature.includes(option.value) &&
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                        ? "highlight.main"
+                        : "secondary.light",
+                    border:
+                      filterForm.timeSignature.includes(option.value) &&
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                        ? 2
+                        : 0,
+                    opacity:
+                      filterForm.timeSignature.includes(option.value) &&
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                        ? 1
+                        : isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                        ? 1
+                        : 0.5,
+                    color:
+                      filterForm.timeSignature.includes(option.value) &&
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                        ? "#fff"
+                        : "#000",
+
+                    "&:hover": {
+                      backgroundColor:
+                        filterForm.timeSignature.includes(option.value) &&
+                        !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                          ? "highlight.main"
+                          : "secondary.light",
+                      boxShadow: "none",
+                    },
+                  }}
+                  onClick={() => {
+                    if (filterForm.timeSignature.includes(option.value)) {
+                      //there should be at least 1 item unchecked
+                      if (filterForm.timeSignature.length == 1) {
+                        toast.error(
+                          "There should be at least one active time signature filter!"
+                        );
+                      } else {
+                        setFilterForm((oldFilterForm) => ({
+                          ...oldFilterForm,
+                          timeSignature: oldFilterForm.timeSignature.filter(
+                            (item) => item != option.value
+                          ),
+                        }));
+                      }
+                    } else {
+                      setFilterForm((oldFilterForm) => ({
+                        ...oldFilterForm,
+                        timeSignature: [
+                          ...oldFilterForm.timeSignature,
+                          option.value,
+                        ],
+                      }));
+                    }
+                  }}
+                />
+              ))}
+            </OptionContainer>
+          )}
+          {/* Keys Section */}
+          {index == 0 && (
+            <OptionContainer title={"Keys"}>
+              <OptionButton
+                title={filterForm?.key?.length === 12 ? "All" : "Select All"}
+                isActive={filterForm?.key?.length === 12}
+                onClick={() =>
+                  setFilterForm((oldFilterForm) => ({
+                    ...oldFilterForm,
+                    key: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                  }))
+                }
+              />
+              {keysSection.options.map((option, index) => (
+                <OptionButton
+                  key={index}
+                  title={option.title}
+                  isActive={filterForm.key.includes(option.value)}
+                  sx={{
+                    backgroundColor:
+                      filterForm.key.includes(option.value) &&
+                      !isSameArr(
+                        filterForm.key,
+                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                      )
+                        ? "highlight.main"
+                        : "secondary.light",
+                    opacity:
+                      filterForm.key.includes(option.value) &&
+                      !isSameArr(
+                        filterForm.key,
+                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                      )
+                        ? 1
+                        : isSameArr(
+                            filterForm.key,
+                            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                          )
+                        ? 1
+                        : 0.5,
+                    color:
+                      filterForm.key.includes(option.value) &&
+                      !isSameArr(
+                        filterForm.key,
+                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                      )
+                        ? "#fff"
+                        : "#000",
+                    border:
+                      filterForm.key.includes(option.value) &&
+                      !isSameArr(
+                        filterForm.key,
+                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                      )
+                        ? 2
+                        : 0,
+
+                    "&:hover": {
+                      backgroundColor:
+                        filterForm.key.includes(option.value) &&
+                        !isSameArr(
+                          filterForm.key,
+                          [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        )
+                          ? "highlight.main"
+                          : "secondary.light",
+                      boxShadow: "none",
+                    },
+                  }}
+                  onClick={() => {
+                    if (filterForm.key.includes(option.value)) {
+                      if (filterForm.key.length == 1) {
+                        toast.error(
+                          `There should be at least one active key filter!`
+                        );
+                      } else {
+                        setFilterForm((oldFilterForm) => ({
+                          ...oldFilterForm,
+                          key: oldFilterForm.key.filter(
+                            (item) => item != option.value
+                          ),
+                        }));
+                      }
+                    } else {
+                      setFilterForm((oldFilterForm) => ({
+                        ...oldFilterForm,
+                        key: [...oldFilterForm.key, option.value],
+                      }));
+                    }
+                  }}
+                />
+              ))}
+            </OptionContainer>
+          )}
+        </>
       ))}
 
       <Grid container marginTop={2}>

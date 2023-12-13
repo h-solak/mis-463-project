@@ -23,93 +23,8 @@ const filterFormValues = [
       },
     ],
   },
-  //2
-  {
-    title: "Time Signature",
-    stateTitle: "timeSignature",
-    options: [
-      {
-        title: "All",
-        value: "None",
-      },
-      {
-        title: "3/4",
-        value: "3",
-      },
-      {
-        title: "4/4",
-        value: "4",
-      },
-      {
-        title: "5/4",
-        value: "5",
-      },
-      {
-        title: "7/4",
-        value: "7",
-      },
-    ],
-  },
-  //3
-  {
-    title: "Key",
-    stateTitle: "key",
-    options: [
-      {
-        title: "All",
-        value: "None",
-      },
-      {
-        title: "C",
-        value: "0",
-      },
-      {
-        title: "C#",
-        value: "1",
-      },
-      {
-        title: "D",
-        value: "2",
-      },
-      {
-        title: "D#",
-        value: "3",
-      },
-
-      {
-        title: "E",
-        value: "4",
-      },
-      {
-        title: "F",
-        value: "5",
-      },
-      {
-        title: "F#",
-        value: "6",
-      },
-      {
-        title: "G",
-        value: "7",
-      },
-      {
-        title: "G#",
-        value: "8",
-      },
-      {
-        title: "A",
-        value: "9",
-      },
-      {
-        title: "A#",
-        value: "10",
-      },
-      {
-        title: "B",
-        value: "11",
-      },
-    ],
-  },
+  //timeSignature section is here - seperate
+  //keys section is here - seperate
   //4
   {
     title: "Mode",
@@ -204,6 +119,85 @@ const filterFormValues = [
   },
 ];
 
+const timeSignatureSection = {
+  title: "Time Signature",
+  stateTitle: "timeSignature",
+  options: [
+    {
+      title: "3/4",
+      value: 3,
+    },
+    {
+      title: "4/4",
+      value: 4,
+    },
+    {
+      title: "5/4",
+      value: 5,
+    },
+    {
+      title: "7/4",
+      value: 7,
+    },
+  ],
+};
+
+const keysSection = {
+  title: "Key",
+  stateTitle: "key",
+  options: [
+    {
+      title: "C",
+      value: 0,
+    },
+    {
+      title: "C#",
+      value: 1,
+    },
+    {
+      title: "D",
+      value: 2,
+    },
+    {
+      title: "D#",
+      value: 3,
+    },
+
+    {
+      title: "E",
+      value: 4,
+    },
+    {
+      title: "F",
+      value: 5,
+    },
+    {
+      title: "F#",
+      value: 6,
+    },
+    {
+      title: "G",
+      value: 7,
+    },
+    {
+      title: "G#",
+      value: 8,
+    },
+    {
+      title: "A",
+      value: 9,
+    },
+    {
+      title: "A#",
+      value: 10,
+    },
+    {
+      title: "B",
+      value: 11,
+    },
+  ],
+};
+
 const defaultGenres = [
   {
     name: "Rock",
@@ -264,4 +258,4 @@ const defaultGenres = [
   },
 ];
 
-export { filterFormValues, defaultGenres };
+export { filterFormValues, timeSignatureSection, keysSection, defaultGenres };

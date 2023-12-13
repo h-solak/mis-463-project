@@ -1,6 +1,12 @@
 const router = require("express").Router();
 const { spawn } = require("child_process");
 
+function isSameArr(arr1, arr2) {
+  return (
+    JSON.stringify(arr1.slice().sort()) === JSON.stringify(arr2.slice().sort())
+  );
+}
+
 //create the playlist user wants: cafe, bar, club
 router.post("/", async (req, res) => {
   const { playlistVectors, filterForm } = req.body;
@@ -14,10 +20,14 @@ router.post("/", async (req, res) => {
     playlistVectors?.acousticness,
     playlistVectors?.valence,
     filterForm?.popularity,
-    filterForm?.timeSignature === "None"
+    isSameArr(filterForm?.timeSignature, [3, 4, 5, 7]) ||
+    !filterForm?.timeSignature
       ? "None"
-      : JSON.stringify([filterForm?.timeSignature]),
-    filterForm?.key === "None" ? "None" : JSON.stringify([filterForm?.key]),
+      : JSON.stringify(filterForm?.timeSignature),
+    isSameArr(filterForm?.key, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) ||
+    !filterForm?.key //or it is empty
+      ? "None"
+      : JSON.stringify(filterForm?.key),
     filterForm?.mode === "None" ? "None" : JSON.stringify([filterForm?.mode]),
     filterForm?.speechy,
     filterForm?.instrumental,

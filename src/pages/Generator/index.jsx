@@ -57,8 +57,8 @@ const Generator = () => {
   const [playlistVectors, setPlaylistVectors] = useState(cafeVectorPreset);
   const [filterForm, setFilterForm] = useState({
     popularity: "None",
-    timeSignature: "None",
-    key: "None",
+    timeSignature: [3, 4, 5, 7],
+    key: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     mode: "None",
     // explicit: "None",
     speechy: "no",
@@ -147,13 +147,13 @@ const Generator = () => {
             height={"72px"}
           >
             <Grid container>
-              <Grid item sm={4} display={"flex"} alignItems={"center"}>
+              {/* <Grid item xs={12} md={4} display={"flex"} alignItems={"center"}>
                 <Tooltip title="Playlist History">
                   <IconButton>
                     <HistoryIcon />
                   </IconButton>
                 </Tooltip>
-                {/* <Button
+                <Button
                     variant="outlined"
                     color="secondary"
                     sx={{
@@ -164,9 +164,9 @@ const Generator = () => {
                     }}
                   >
                     Reset
-                  </Button> */}
-              </Grid>
-              <Grid item sm={4} display={"flex"} justifyContent={"center"}>
+                  </Button>
+              </Grid> */}
+              <Grid item xs={12} display={"flex"} justifyContent={"center"}>
                 <ActionButton
                   variant="contained"
                   onClick={() => {

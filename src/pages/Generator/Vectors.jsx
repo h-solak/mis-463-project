@@ -48,7 +48,7 @@ const clubVectorPreset = {
 const areVectorsEqual = (v1, v2) => {
   return JSON.stringify(v1) == JSON.stringify(v2);
 };
-const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
+const Vectors = ({ playlistVectors, setPlaylistVectors, activeIcon }) => {
   const isSmScreen = useMediaQuery("(max-width:900px)");
 
   const [vectorType, setVectorType] = useState("Cafe");
@@ -87,15 +87,30 @@ const Vectors = ({ playlistVectors, setPlaylistVectors }) => {
         alignItems={"start"}
         gap={4}
       >
-        <Typography
-          textAlign={"start"}
-          variant="h3"
-          color={"primary.main"}
-          fontWeight={700}
-          className="fade-in-ltr"
+        <Grid
+          container
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
         >
-          {vectorType}
-        </Typography>
+          <Typography
+            textAlign={"start"}
+            variant="h3"
+            color={"primary.main"}
+            fontWeight={700}
+            className="fade-in-ltr"
+          >
+            {vectorType}
+          </Typography>
+          {
+            <img
+              className="fade-in-ltr"
+              src={activeIcon}
+              width={64}
+              alt="preset type"
+            />
+          }
+        </Grid>
         <Box
           display={"flex"}
           alignItems={"center"}

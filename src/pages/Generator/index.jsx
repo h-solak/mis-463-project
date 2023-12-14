@@ -34,6 +34,10 @@ import BarVectorSvg from "../../assets/svg/barVector.svg";
 import ClubVectorSvg from "../../assets/svg/clubVector.svg";
 import YourownVectorSvg from "../../assets/svg/yourownVector.svg";
 
+function areObjectsEqual(obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+
 const cafeVectorPreset = {
   danceability: 37.4,
   energy: 70.1,
@@ -59,7 +63,7 @@ const Generator = () => {
   const [generatedPlaylist, setGeneratedPlaylist] = useState({});
   const [celebrationIsPlaying, setCelebrationIsPlaying] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
-  const [pageBg, setPageBg] = useState("#fff");
+  const [activeSvg, setActiveSvg] = useState(CafeVectorSvg);
   const [playlistVectors, setPlaylistVectors] = useState(cafeVectorPreset);
   const [filterForm, setFilterForm] = useState({
     popularity: "None",
@@ -129,15 +133,16 @@ const Generator = () => {
   }, [celebrationIsPlaying]);
   useEffect(() => {
     //JSON kullanmazsan olmaz bu
-    if (playlistVectors == cafeVectorPreset) {
-      setPageBg("#fff");
-    } else if (playlistVectors == barVectorPreset) {
-      setPageBg("#f5f5f5");
-    } else if (playlistVectors == clubVectorPreset) {
-      setPageBg("#ededed");
+    if (areObjectsEqual(playlistVectors, cafeVectorPreset)) {
+      setActiveSvg(CafeVectorSvg);
+    } else if (areObjectsEqual(playlistVectors, barVectorPreset)) {
+      setActiveSvg(BarVectorSvg);
+    } else if (areObjectsEqual(playlistVectors, clubVectorPreset)) {
+      setActiveSvg(ClubVectorSvg);
     } else {
-      setPageBg("#fff");
+      setActiveSvg(YourownVectorSvg);
     }
+    console.log(activeSvg);
   }, [playlistVectors]);
   return (
     <Layout>
@@ -147,6 +152,7 @@ const Generator = () => {
           <Vectors
             playlistVectors={playlistVectors}
             setPlaylistVectors={setPlaylistVectors}
+            activeIcon={activeSvg}
           />
           <FilterForm filterForm={filterForm} setFilterForm={setFilterForm} />
           <Grid
@@ -334,24 +340,49 @@ const Generator = () => {
                       alignItems={"center"}
                       justifyContent={"space-between"}
                     >
-                      <Typography variant="h6" fontWeight={600}>
-                        Your playlist resembles a{" "}
-                        <Typography
-                          component={"span"}
-                          variant="h6"
-                          fontWeight={600}
-                          color={"highlight.main"}
-                        >
-                          {Math.max(...generatedPlaylist?.similarities) ==
-                          generatedPlaylist?.similarities[0]
-                            ? "CAFE"
-                            : Math.max(...generatedPlaylist?.similarities) ==
-                              generatedPlaylist?.similarities[1]
-                            ? "BAR"
-                            : "CLUB"}{" "}
-                        </Typography>
-                        playlist by{" "}
-                        {(generatedPlaylist?.similarities[0] * 100).toFixed(1)}%
+                      <Typography
+                        variant="h6"
+                        fontWeight={600}
+                        textAlign={"start"}
+                      >
+                        {Math.max(...generatedPlaylist?.similarities) * 100 >
+                        86 ? (
+                          <>
+                            Your playlist resembles a{" "}
+                            <Typography
+                              component={"span"}
+                              variant="h6"
+                              fontWeight={600}
+                              color={"highlight.main"}
+                            >
+                              {Math.max(...generatedPlaylist?.similarities) ==
+                              generatedPlaylist?.similarities[0]
+                                ? "CAFE"
+                                : Math.max(
+                                    ...generatedPlaylist?.similarities
+                                  ) == generatedPlaylist?.similarities[1]
+                                ? "BAR"
+                                : "CLUB"}{" "}
+                            </Typography>
+                            playlist by{" "}
+                            {(generatedPlaylist?.similarities[0] * 100).toFixed(
+                              1
+                            )}
+                            %
+                          </>
+                        ) : (
+                          <>
+                            Your playlist is exceptional and{" "}
+                            <Typography
+                              component={"span"}
+                              variant="h6"
+                              fontWeight={700}
+                              color={"highlight.main"}
+                            >
+                              UNIQUE!
+                            </Typography>{" "}
+                          </>
+                        )}
                       </Typography>
                     </Box>
                     <Grid
@@ -370,7 +401,7 @@ const Generator = () => {
                         <Box
                           padding={1}
                           paddingLeft={2}
-                          width={`calc(${
+                          width={`calc(50px + ${
                             300 * generatedPlaylist?.similarities[0]
                           }px)`}
                           sx={{
@@ -389,7 +420,7 @@ const Generator = () => {
                         <Box
                           padding={1}
                           paddingLeft={2}
-                          width={`calc(${
+                          width={`calc(50px + ${
                             300 * generatedPlaylist?.similarities[1]
                           }px)`}
                           sx={{
@@ -408,7 +439,7 @@ const Generator = () => {
                         <Box
                           padding={1}
                           paddingLeft={2}
-                          width={`calc(${
+                          width={`calc(50px + ${
                             300 * generatedPlaylist?.similarities[2]
                           }px)`}
                           sx={{
@@ -427,16 +458,19 @@ const Generator = () => {
                       </Box>
                       <img
                         src={
-                          Math.max(...generatedPlaylist?.similarities) ==
-                          generatedPlaylist?.similarities[0]
+                          Math.max(...generatedPlaylist?.similarities) * 100 <
+                          86
+                            ? YourownVectorSvg
+                            : Math.max(...generatedPlaylist?.similarities) ==
+                              generatedPlaylist?.similarities[0]
                             ? CafeVectorSvg
                             : Math.max(...generatedPlaylist?.similarities) ==
                               generatedPlaylist?.similarities[1]
                             ? BarVectorSvg
                             : ClubVectorSvg
                         }
-                        width={125}
-                        height={125}
+                        width={100}
+                        height={100}
                         alt="business"
                         style={{
                           padding: 12,

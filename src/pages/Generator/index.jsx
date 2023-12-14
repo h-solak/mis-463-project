@@ -28,6 +28,12 @@ import HistoryIcon from "@mui/icons-material/History";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import copyToClipboard from "../../utils/copyToClipboard";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+import CafeVectorSvg from "../../assets/svg/cafeVector.svg";
+import BarVectorSvg from "../../assets/svg/barVector.svg";
+import ClubVectorSvg from "../../assets/svg/clubVector.svg";
+import YourownVectorSvg from "../../assets/svg/yourownVector.svg";
+
 const cafeVectorPreset = {
   danceability: 37.4,
   energy: 70.1,
@@ -97,13 +103,19 @@ const Generator = () => {
 
   const handleCreateBusinessPlaylist = async (userId) => {
     setCrrStep(1);
-    const playlistId = await createBusinessPlaylist(
+    const res = await createBusinessPlaylist(
       userId,
       playlistVectors,
       filterForm
     );
+    const playlistId = res?.playlistId;
+    //similarities: [cafe,bar,club]
+    const similarities = res?.similarity;
     const newPlaylist = await getPlaylist(playlistId);
-    setGeneratedPlaylist(newPlaylist);
+    setGeneratedPlaylist({
+      playlist: newPlaylist,
+      similarities: similarities,
+    });
     setCrrStep(2);
     setCelebrationIsPlaying(true);
   };
@@ -224,7 +236,8 @@ const Generator = () => {
           alignItems={"center"}
           justifyContent={"space-around"}
           textAlign={"center"}
-          height={"calc(100vh - 76px)"}
+          height={isSmScreen ? "auto" : "calc(100vh - 76px)"}
+          marginTop={isSmScreen ? 2 : 0}
           gap={1}
         >
           {celebrationIsPlaying && (
@@ -243,7 +256,7 @@ const Generator = () => {
           <Grid container>
             <Grid
               item
-              sm={12}
+              xs={12}
               md={12}
               display={"flex"}
               flexDirection={"column"}
@@ -268,68 +281,232 @@ const Generator = () => {
                 library.
                 {/* <br /> Hit play and enjoy the music! */}
               </Typography>
-              <Box
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                gap={1}
-                paddingY={1}
-                paddingX={2}
-                sx={{
-                  backgroundColor: "secondary.light",
-                  borderRadius: 4,
-                }}
-                className="opening-animation"
-              >
-                <Typography color={"#757575"} sx={{ zIndex: 10 }}>
-                  {generatedPlaylist?.external_urls?.spotify}
-                </Typography>
-                <Button
-                  color={"highlight"}
-                  variant="contained"
-                  startIcon={
-                    isLinkCopied ? <CheckCircleIcon /> : <ContentCopyIcon />
-                  }
-                  onClick={() => {
-                    copyToClipboard(generatedPlaylist?.external_urls?.spotify);
-                    setIsLinkCopied(true);
-                  }}
-                  sx={{
-                    borderRadius: 99,
-                    textTransform: "capitalize",
-                    fontWeight: 600,
-                    color: "white",
-                  }}
-                >
-                  Copy Link
-                </Button>
-              </Box>
             </Grid>
-            <Grid
-              item
-              sm={12}
-              md={12}
-              marginTop={2}
-              className="opening-animation"
-            >
-              <iframe
-                style={{ borderRadius: "12px" }}
-                src={
-                  generatedPlaylist?.external_urls?.spotify.slice(0, 25) +
-                  "embed/" +
-                  generatedPlaylist?.external_urls?.spotify.slice(25) +
-                  "?utm_source=generator"
-                }
-                width={isSmScreen ? "100%" : "75%"}
-                height="360"
-                frameBorder="0"
-                allowFullScreen
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-              ></iframe>
+
+            <Grid container marginTop={0} spacing={4}>
+              <Grid
+                item
+                xs={12}
+                md={6}
+                display={"flex"}
+                justifyContent={"center"}
+                flexDirection={"column"}
+              >
+                <iframe
+                  className="opening-animation"
+                  style={{ borderRadius: "12px" }}
+                  src={
+                    generatedPlaylist?.playlist?.external_urls?.spotify.slice(
+                      0,
+                      25
+                    ) +
+                    "embed/" +
+                    generatedPlaylist?.playlist?.external_urls?.spotify.slice(
+                      25
+                    ) +
+                    "?utm_source=generator"
+                  }
+                  //hard-code for testing src="https://open.spotify.com/embed/playlist/0oQzDq2uup55SiP43mYBXj?utm_source=generator"
+                  width={"100%"}
+                  height="380"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                ></iframe>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={6}
+                display={"flex"}
+                alignItems={"start"}
+                justifyContent={"space-around"}
+                flexDirection={"column"}
+                sx={{
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {generatedPlaylist?.similarities && (
+                  <>
+                    <Box
+                      display={"flex"}
+                      alignItems={"center"}
+                      justifyContent={"space-between"}
+                    >
+                      <Typography variant="h6" fontWeight={600}>
+                        Your playlist resembles a{" "}
+                        <Typography
+                          component={"span"}
+                          variant="h6"
+                          fontWeight={600}
+                          color={"highlight.main"}
+                        >
+                          {Math.max(...generatedPlaylist?.similarities) ==
+                          generatedPlaylist?.similarities[0]
+                            ? "CAFE"
+                            : Math.max(...generatedPlaylist?.similarities) ==
+                              generatedPlaylist?.similarities[1]
+                            ? "BAR"
+                            : "CLUB"}{" "}
+                        </Typography>
+                        playlist by{" "}
+                        {(generatedPlaylist?.similarities[0] * 100).toFixed(1)}%
+                      </Typography>
+                    </Box>
+                    <Grid
+                      container
+                      display={"flex"}
+                      alignItems={"center"}
+                      gap={8}
+                    >
+                      <Box
+                        display={"flex"}
+                        alignItems={"start"}
+                        flexDirection={"column"}
+                        gap={2}
+                        className="fade-in-ltr"
+                      >
+                        <Box
+                          padding={1}
+                          paddingLeft={2}
+                          width={`calc(${
+                            300 * generatedPlaylist?.similarities[0]
+                          }px)`}
+                          sx={{
+                            backgroundColor: "dark.main",
+                            color: "#fff",
+                          }}
+                          textAlign={"start"}
+                        >
+                          <Typography variant="h6">
+                            Cafe{" "}
+                            {`${(
+                              generatedPlaylist?.similarities[0] * 100
+                            ).toFixed(1)}%`}
+                          </Typography>
+                        </Box>
+                        <Box
+                          padding={1}
+                          paddingLeft={2}
+                          width={`calc(${
+                            300 * generatedPlaylist?.similarities[1]
+                          }px)`}
+                          sx={{
+                            backgroundColor: "dark.main",
+                            color: "#fff",
+                          }}
+                          textAlign={"start"}
+                        >
+                          <Typography variant="h6">
+                            Bar{" "}
+                            {`${(
+                              generatedPlaylist?.similarities[1] * 100
+                            ).toFixed(1)}%`}
+                          </Typography>
+                        </Box>
+                        <Box
+                          padding={1}
+                          paddingLeft={2}
+                          width={`calc(${
+                            300 * generatedPlaylist?.similarities[2]
+                          }px)`}
+                          sx={{
+                            backgroundColor: "dark.main",
+                            color: "#fff",
+                          }}
+                          textAlign={"start"}
+                        >
+                          <Typography variant="h6">
+                            Club{" "}
+                            {`${(
+                              generatedPlaylist?.similarities[2] * 100
+                            ).toFixed(1)}%`}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <img
+                        src={
+                          Math.max(...generatedPlaylist?.similarities) ==
+                          generatedPlaylist?.similarities[0]
+                            ? CafeVectorSvg
+                            : Math.max(...generatedPlaylist?.similarities) ==
+                              generatedPlaylist?.similarities[1]
+                            ? BarVectorSvg
+                            : ClubVectorSvg
+                        }
+                        width={125}
+                        height={125}
+                        alt="business"
+                        style={{
+                          padding: 12,
+                          backgroundColor: "#f2f2f2",
+                          borderRadius: 99,
+                        }}
+                      />
+                    </Grid>
+                  </>
+                )}
+                <Grid
+                  item
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"start"}
+                  gap={1}
+                  paddingY={1}
+                  paddingX={2}
+                  sx={{
+                    backgroundColor: "secondary.light",
+                    borderRadius: 4,
+                  }}
+                  className="opening-animation"
+                >
+                  <Typography
+                    color={"#757575"}
+                    sx={{
+                      textOverflow: "ellipsis",
+                      zIndex: 10,
+                    }}
+                  >
+                    {generatedPlaylist?.playlist?.external_urls?.spotify}
+                    {/* dummy https://open.spotify.com/playlist/5DMGtKA5Ayh5AibHFNFgNFSDAFDASFADSFSFSDFDAS */}
+                  </Typography>
+                  <IconButton
+                    color={"highlight"}
+                    variant="contained"
+                    onClick={() => {
+                      copyToClipboard(
+                        generatedPlaylist?.playlist?.external_urls?.spotify
+                      );
+                      setIsLinkCopied(true);
+                    }}
+                    sx={{
+                      borderRadius: 99,
+                      fontWeight: 600,
+                      color: "white",
+                    }}
+                  >
+                    {/* Copy Link */}
+                    {isLinkCopied ? (
+                      <CheckCircleIcon
+                        sx={{
+                          color: "#000",
+                        }}
+                      />
+                    ) : (
+                      <ContentCopyIcon
+                        sx={{
+                          color: "#000",
+                        }}
+                      />
+                    )}
+                  </IconButton>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item sm={12} marginTop={2}>
               <ActionButton
+                color="primary"
                 variant="contained"
                 onClick={() => {
                   setCrrStep(0);

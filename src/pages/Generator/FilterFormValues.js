@@ -4,6 +4,8 @@ const filterFormValues = [
     title: "Popularity",
     stateTitle:
       "popularity" /* State title helps us change the state of the filter */,
+
+    tooltip: "Whether the song is popular or not",
     options: [
       {
         title: "All",
@@ -29,6 +31,8 @@ const filterFormValues = [
   {
     title: "Mode",
     stateTitle: "mode",
+    tooltip:
+      "The modality (major or minor) of a track, the type of scale from which its melodic content is derived",
     options: [
       {
         title: "All",
@@ -46,9 +50,9 @@ const filterFormValues = [
   },
   //5
   {
-    title: "Speechiness",
+    title: "Speechy",
     stateTitle: "speechy",
-    info: "Including podcast-like tracks or not",
+    tooltip: "The presence of spoken words in a track",
     options: [
       {
         title: "Yes",
@@ -62,8 +66,9 @@ const filterFormValues = [
   },
   //6
   {
-    title: "Instrumentalness",
+    title: "Instrumental",
     stateTitle: "instrumental",
+    tooltip: "Whether a track contains no vocals",
     options: [
       {
         title: "All",
@@ -81,8 +86,9 @@ const filterFormValues = [
   },
   //7
   {
-    title: "Liveness",
+    title: "Live",
     stateTitle: "live",
+    tooltip: "The presence of an audience in the recording",
     options: [
       {
         title: "All",
@@ -122,6 +128,7 @@ const filterFormValues = [
 const timeSignatureSection = {
   title: "Time Signature",
   stateTitle: "timeSignature",
+  tooltip: "How many beats are in each bar",
   options: [
     {
       title: "3/4",
@@ -145,6 +152,7 @@ const timeSignatureSection = {
 const keysSection = {
   title: "Key",
   stateTitle: "key",
+  tooltip: "The key the tracks are in",
   options: [
     {
       title: "C",

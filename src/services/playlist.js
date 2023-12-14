@@ -52,6 +52,7 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
     const playlistType = getPlaylistType(playlistVectors);
     console.log(playlistType);
 
+    //fun fact
     const uselessres = await axios.get(
       "https://uselessfacts.jsph.pl/api/v2/facts/random"
     );
@@ -72,7 +73,9 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
       playlistVectors: playlistVectors,
       filterForm: filterForm,
     });
-    const playlist = res.data.playlist; //array of IDs
+    console.log(res);
+    const playlist = res?.data?.playlist; //array of IDs
+    const similarity = res?.data?.similarity; //array of IDs
     let uris = [];
     playlist?.map((item) => uris?.push(`spotify:track:${item}`));
     await addItemsToPlaylist(playlistId, uris);
@@ -87,7 +90,7 @@ const createBusinessPlaylist = async (user_id, playlistVectors, filterForm) => {
     // });
     // localstorage.setItem("tunemix-history", JSON.stringify(newPlaylistHistory));
 
-    return playlistId;
+    return { playlistId: playlistId, similarity: similarity };
   } catch (err) {
     console.log(err);
   }

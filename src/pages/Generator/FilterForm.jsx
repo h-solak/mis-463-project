@@ -1,8 +1,10 @@
 import {
+  Box,
   Button,
   Checkbox,
   FormControlLabel,
   Grid,
+  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -46,12 +48,19 @@ const OptionButton = ({ title, onClick, isActive, sx, disabled }) => {
   );
 };
 
-const OptionContainer = ({ children, title }) => {
+const OptionContainer = ({ children, title, tooltip }) => {
   return (
     <Grid container marginTop={2}>
-      <Grid item xs={12}>
-        <Typography fontWeight={600}>{title}</Typography>
-      </Grid>
+      <Tooltip title={tooltip || ""} placement="right">
+        <Box
+          display={"flex"}
+          sx={{
+            cursor: "default",
+          }}
+        >
+          <Typography fontWeight={600}>{title}</Typography>
+        </Box>
+      </Tooltip>
       <Grid container spacing={1} marginTop={0} alignItems={"center"}>
         {children}
       </Grid>
@@ -178,7 +187,11 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
 
       {filterFormValues.map((section, index) => (
         <>
-          <OptionContainer key={index} title={section.title}>
+          <OptionContainer
+            key={index}
+            title={section.title}
+            tooltip={section?.tooltip}
+          >
             {section.options.map((option, index) => (
               <OptionButton
                 key={index}
@@ -191,7 +204,10 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
           {/* Time Signature Section */}
 
           {index == 0 && (
-            <OptionContainer title={"Time Signature"}>
+            <OptionContainer
+              title={"Time Signature"}
+              tooltip={timeSignatureSection.tooltip}
+            >
               <OptionButton
                 title={
                   filterForm?.timeSignature?.length === 4 ? "All" : "Select All"
@@ -273,7 +289,7 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
           )}
           {/* Keys Section */}
           {index == 0 && (
-            <OptionContainer title={"Keys"}>
+            <OptionContainer title={"Keys"} tooltip={keysSection.tooltip}>
               <OptionButton
                 title={filterForm?.key?.length === 12 ? "All" : "Select All"}
                 isActive={filterForm?.key?.length === 12}

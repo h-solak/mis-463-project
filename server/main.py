@@ -370,7 +370,27 @@ tracks_filtered = filter_tracks(
                 genres=UserFilterSettings.GENRES,
                 customer_choice_genres=UserFilterSettings.CUSTOMER_CHOICE_GENRES)
 
+
 song_ids = np.array(tracks_filtered['track_id'])
 song_ids_list = song_ids.tolist()
 song_ids_json = json.dumps(song_ids_list)
-print(song_ids_json)
+
+
+#Get similarities
+def est_similarity(pl_mean_vec):
+    sigma=0.6281537543781288
+    
+    cafe_dis = norm(pl_mean_vec - UserEstablishmentChoice.VECTORS['cafe'])
+    bar_dis = norm(pl_mean_vec - UserEstablishmentChoice.VECTORS['bar'])
+    club_dis = norm(pl_mean_vec - UserEstablishmentChoice.VECTORS['club'])
+    
+    cafe_sim = np.exp(-cafe_dis ** 2 / (2 * sigma ** 2))
+    bar_sim = np.exp(-bar_dis ** 2 / (2 * sigma ** 2))
+    club_sim = np.exp(-club_dis ** 2 / (2 * sigma ** 2))
+
+    return [cafe_sim, bar_sim, club_sim]  
+
+pl_mean = tracks_to_vectorize[tracks_to_vectorize['track_id'].isin(tracks_filtered['track_id'])].drop('track_id',axis=1).mean()
+playlist_est_sims = est_similarity(pl_mean)
+playlist_est_sims_json = json.dumps(playlist_est_sims)
+print(json.dumps([song_ids_json, playlist_est_sims_json]))

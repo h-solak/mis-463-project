@@ -34,6 +34,9 @@ import BarVectorSvg from "../../assets/svg/barVector.svg";
 import ClubVectorSvg from "../../assets/svg/clubVector.svg";
 import YourownVectorSvg from "../../assets/svg/yourownVector.svg";
 import GenrePieChart from "./GenrePieChart";
+import VectorDistribution from "./VectorDistribution";
+import { ScatterChart } from "@mui/x-charts";
+import CloseIcon from "@mui/icons-material/Close";
 
 function areObjectsEqual(obj1, obj2) {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -63,6 +66,8 @@ const Generator = () => {
   const [crrStep, setCrrStep] = useState(0); //0-> form, 1-> loading/generating, 2-> completed playlist
   const [generatedPlaylist, setGeneratedPlaylist] = useState({});
   const [tableData, setTableData] = useState({});
+  const [chartsModal, setChartsModal] = useState(false);
+
   /*
   array of obj
    {
@@ -567,34 +572,176 @@ const Generator = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item sm={12} paddingY={3}>
-              {tableData && (
-                <GenrePieChart
-                  data={tableData?.map((item) => ({
-                    id: item?.track_id,
-                    // value: 20,
-                    genre: item?.genre,
-                  }))}
-                  // width={400}
-                  // height={200}
-                />
-              )}
-            </Grid>
-            <Grid item sm={12} marginTop={2}>
-              <ActionButton
-                color="primary"
-                variant="contained"
-                onClick={() => {
-                  setCrrStep(0);
-                  setGeneratedPlaylist({});
-                }}
-                fontSize={20}
-                sx={{
-                  maxHeight: "54px",
-                }}
+            <Grid container marginTop={3} alignItems={"center"}>
+              <Grid
+                item
+                xs={12}
+                textAlign={"center"}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={1}
               >
-                New Playlist
-              </ActionButton>
+                <Button
+                  color="highlight"
+                  variant="contained"
+                  size="large"
+                  onClick={() => {
+                    setCrrStep(0);
+                    setGeneratedPlaylist({});
+                  }}
+                  fontSize={20}
+                  sx={{
+                    color: "#fff",
+                    borderRadius: 999,
+                    width: 200,
+                  }}
+                >
+                  New Playlist
+                </Button>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => setChartsModal(true)}
+                  sx={{
+                    background: "#000",
+                    borderRadius: 99,
+                    width: 200,
+                  }}
+                >
+                  Analyze
+                </Button>
+              </Grid>
+              <Modal isModalOpen={chartsModal} setIsModalOpen={setChartsModal}>
+                <Box height={"85vh"}>
+                  <Grid
+                    item
+                    xs={12}
+                    paddingBottom={2}
+                    sx={{
+                      borderBottom: 2,
+                      borderColor: "#00000020",
+                    }}
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                  >
+                    <Typography variant="h5" fontWeight={600}>
+                      {generatedPlaylist?.playlist?.name}
+                    </Typography>
+                    <IconButton onClick={() => setChartsModal(false)}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Grid>
+                  {tableData && (
+                    <Box
+                      height={"75vh"}
+                      width={"50vw"}
+                      sx={{
+                        overflowY: "scroll",
+                      }}
+                    >
+                      <Grid
+                        item
+                        xs={12}
+                        paddingBottom={1}
+                        marginTop={4}
+                        id="vector-distributions"
+                      >
+                        <Typography variant="h6" fontWeight={600}>
+                          Vector Averages
+                        </Typography>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        md={12}
+                        display={"flex"}
+                        justifyContent={"center"}
+                      >
+                        {/* <Typography>Vector Distributions</Typography> */}
+                        <VectorDistribution
+                          data={tableData?.map((item) => ({
+                            danceability: item?.danceability,
+                            energy: item?.energy,
+                            acousticness: item?.acousticness,
+                            valence: item?.valence,
+                          }))}
+                          resemble={
+                            Math.max(...generatedPlaylist?.similarities) * 100 <
+                            86
+                              ? ""
+                              : Math.max(...generatedPlaylist?.similarities) ==
+                                generatedPlaylist?.similarities[0]
+                              ? "Cafe"
+                              : Math.max(...generatedPlaylist?.similarities) ==
+                                generatedPlaylist?.similarities[1]
+                              ? "Bar"
+                              : "Club"
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={12} paddingY={1} marginTop={4}>
+                        <Typography variant="h6" fontWeight={600}>
+                          Genre Distributions of your playlist
+                        </Typography>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        md={12}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        textAlign={"center"}
+                      >
+                        <GenrePieChart
+                          data={tableData?.map((item) => ({
+                            id: item?.track_id,
+                            genre: item?.genre,
+                          }))}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        paddingTop={4}
+                        marginTop={4}
+                        paddingBottom={1}
+                        id="vector-distributions"
+                      >
+                        <Typography variant="h6" fontWeight={600}>
+                          Scatter Plot
+                        </Typography>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        md={12}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        textAlign={"center"}
+                      >
+                        <ScatterChart
+                          data={tableData?.map((item) => ({
+                            x: item?.popularity,
+                            y: item?.energy,
+                          }))}
+                          width={600}
+                          height={300}
+                          series={[
+                            {
+                              label: "(Danceability, Energy)",
+                              data: tableData?.map((item) => ({
+                                x: item?.danceability,
+                                y: item?.energy,
+                              })),
+                            },
+                          ]}
+                        />
+                      </Grid>
+                    </Box>
+                  )}
+                </Box>
+              </Modal>
             </Grid>
           </Grid>
         </Box>

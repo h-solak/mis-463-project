@@ -207,13 +207,13 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
             >
               <OptionButton
                 title={
-                  filterForm?.timeSignature?.length === 4 ? "All" : "Select All"
+                  filterForm?.timeSignature?.length === 3 ? "All" : "Select All"
                 }
-                isActive={filterForm?.timeSignature?.length === 4}
+                isActive={filterForm?.timeSignature?.length === 3}
                 onClick={() =>
                   setFilterForm((oldFilterForm) => ({
                     ...oldFilterForm,
-                    timeSignature: [3, 4, 5, 7],
+                    timeSignature: [3, 4, 5],
                   }))
                 }
               />
@@ -225,31 +225,31 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
                   sx={{
                     backgroundColor:
                       filterForm.timeSignature.includes(option.value) &&
-                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5])
                         ? "highlight.main"
                         : "secondary.light",
                     border:
                       filterForm.timeSignature.includes(option.value) &&
-                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5])
                         ? 2
                         : 0,
                     opacity:
                       filterForm.timeSignature.includes(option.value) &&
-                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5])
                         ? 1
-                        : isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                        : isSameArr(filterForm.timeSignature, [3, 4, 5])
                         ? 1
                         : 0.5,
                     color:
                       filterForm.timeSignature.includes(option.value) &&
-                      !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                      !isSameArr(filterForm.timeSignature, [3, 4, 5])
                         ? "light.main"
                         : "dark.main",
 
                     "&:hover": {
                       backgroundColor:
                         filterForm.timeSignature.includes(option.value) &&
-                        !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
+                        !isSameArr(filterForm.timeSignature, [3, 4, 5])
                           ? "highlight.main"
                           : "secondary.light",
                       boxShadow: "none",

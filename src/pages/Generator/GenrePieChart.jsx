@@ -18,17 +18,14 @@ const GenrePieChart = ({ data }) => {
   }, []);
 
   return (
-    <Grid container display={"flex"} justifyContent={"center"}>
-      <PieChart
-        series={[
-          {
-            data: genreCounts,
-          },
-        ]}
-        width={400}
-        height={200}
-      />
-    </Grid>
+    <PieChart
+      series={[
+        {
+          data: genreCounts,
+        },
+      ]}
+      height={250}
+    />
   );
 };
 

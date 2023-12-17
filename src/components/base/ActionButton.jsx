@@ -16,7 +16,7 @@ const ActionButton = ({
       onClick={onClick}
       sx={{
         ...sx,
-        color: "#fff",
+        color: "light.main",
         fontSize: fontSize ? fontSize : 24,
         textTransform: "capitalize",
         borderRadius: "99px",

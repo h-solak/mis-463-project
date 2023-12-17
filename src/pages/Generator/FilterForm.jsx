@@ -4,6 +4,7 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
+  Switch,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -21,7 +22,7 @@ import toast from "react-hot-toast";
 const OptionButton = ({ title, onClick, isActive, sx, disabled }) => {
   const sxSettings = {
     backgroundColor: isActive ? "highlight.main" : "secondary.light",
-    color: isActive ? "#fff" : "#000",
+    color: isActive ? "light.main" : "dark.main",
     borderRadius: 99,
     textTransform: "capitalize",
     boxShadow: "none",
@@ -58,7 +59,9 @@ const OptionContainer = ({ children, title, tooltip }) => {
             cursor: "default",
           }}
         >
-          <Typography fontWeight={600}>{title}</Typography>
+          <Typography fontWeight={600} color={"dark.main"}>
+            {title}
+          </Typography>
         </Box>
       </Tooltip>
       <Grid container spacing={1} marginTop={0} alignItems={"center"}>
@@ -113,19 +116,19 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
           mode: value,
         }));
         break;
-      case "Speechiness":
+      case "Speechy":
         setFilterForm((oldFilterForm) => ({
           ...oldFilterForm,
           speechy: value,
         }));
         break;
-      case "Instrumentalness":
+      case "Instrumental":
         setFilterForm((oldFilterForm) => ({
           ...oldFilterForm,
           instrumental: value,
         }));
         break;
-      case "Liveness":
+      case "Live":
         setFilterForm((oldFilterForm) => ({
           ...oldFilterForm,
           live: value,
@@ -160,8 +163,6 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
     }
   };
 
-  useEffect(() => console.log(filterForm.key), [filterForm]);
-
   return (
     <Grid
       item
@@ -186,12 +187,8 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
       {/* Popularity */}
 
       {filterFormValues.map((section, index) => (
-        <>
-          <OptionContainer
-            key={index}
-            title={section.title}
-            tooltip={section?.tooltip}
-          >
+        <Grid container key={index}>
+          <OptionContainer title={section.title} tooltip={section?.tooltip}>
             {section.options.map((option, index) => (
               <OptionButton
                 key={index}
@@ -246,8 +243,8 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
                     color:
                       filterForm.timeSignature.includes(option.value) &&
                       !isSameArr(filterForm.timeSignature, [3, 4, 5, 7])
-                        ? "#fff"
-                        : "#000",
+                        ? "light.main"
+                        : "dark.main",
 
                     "&:hover": {
                       backgroundColor:
@@ -333,8 +330,8 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
                         filterForm.key,
                         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                       )
-                        ? "#fff"
-                        : "#000",
+                        ? "light.main"
+                        : "dark.main",
                     border:
                       filterForm.key.includes(option.value) &&
                       !isSameArr(
@@ -381,7 +378,7 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
               ))}
             </OptionContainer>
           )}
-        </>
+        </Grid>
       ))}
 
       <Grid container marginTop={2}>
@@ -396,7 +393,7 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
         >
           <FormControlLabel
             control={
-              <Checkbox
+              <Switch
                 checked={!filterForm.customerChoiceGenres}
                 onChange={() =>
                   setFilterForm((oldFilterForm) => ({
@@ -405,17 +402,29 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
                   }))
                 }
                 sx={{
-                  color: "dark.main",
-                  "&.Mui-checked": {
-                    color: "highlight.main",
+                  "& .MuiSwitch-thumb": {
+                    color: filterForm.customerChoiceGenres
+                      ? "secondary.main"
+                      : "primary.main",
+                  },
+                  "& .MuiSwitch-track": {
+                    color: filterForm.customerChoiceGenres
+                      ? "secondary.light"
+                      : "secondary.main",
                   },
                 }}
               />
             }
             label={
-              <Typography fontWeight={600}>
-                Customize according to genre
-              </Typography>
+              <Tooltip
+                title="If you leave this unchecked, genres are distributed based on their weight
+        that the customer survey determined"
+                placement="bottom"
+              >
+                <Typography fontWeight={600}>
+                  Customize according to genre
+                </Typography>
+              </Tooltip>
             }
             sx={{
               fontSize: 23,
@@ -435,6 +444,35 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
           }}
         >
           <Grid container spacing={1}>
+            <OptionButton
+              title={filterForm.genres.length == 15 ? "All" : "Select All"}
+              onClick={() =>
+                filterForm.customerChoiceGenres
+                  ? null
+                  : setFilterForm((oldFilterForm) => ({
+                      ...oldFilterForm,
+                      genres: [
+                        "Rock",
+                        "Pop",
+                        "Metal",
+                        "Hip Hop",
+                        "Electronic",
+                        "Latin",
+                        "World/Traditional",
+                        "Jazz",
+                        "R&B",
+                        "Blues",
+                        "Easy Listening",
+                        "Classical",
+                        "Folk/Acoustic",
+                        "Country",
+                        "New Age",
+                      ],
+                    }))
+              }
+              isActive={filterForm.genres.length == 15}
+            />
+
             {defaultGenres.map((genre, index) => (
               <OptionButton
                 key={index}
@@ -446,12 +484,30 @@ const FilterForm = ({ filterForm, setFilterForm }) => {
                 }
                 isActive={filterForm.genres.includes(genre.value)}
                 sx={{
-                  backgroundColor: "secondary.light",
+                  backgroundColor:
+                    filterForm.genres.length == 15
+                      ? "secondary.light"
+                      : filterForm.genres.includes(genre.value)
+                      ? "highlight.main"
+                      : "secondary.light",
+                  color:
+                    filterForm.genres.length == 15
+                      ? "dark.main"
+                      : filterForm.genres.includes(genre.value)
+                      ? "light.main"
+                      : "dark.main",
+
+                  border: filterForm.genres.length == 15 ? 0 : 2,
+
                   opacity: filterForm.genres.includes(genre.value) ? 1 : 0.5,
-                  color: "#000",
-                  border: 0,
+
                   "&:hover": {
-                    backgroundColor: "secondary.light",
+                    backgroundColor:
+                      filterForm.genres.length == 15
+                        ? "secondary.light"
+                        : filterForm.genres.includes(genre.value)
+                        ? "highlight.main"
+                        : "secondary.light",
                     boxShadow: "none",
                   },
                 }}

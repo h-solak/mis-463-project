@@ -5,6 +5,8 @@ import warnings
 from datetime import datetime
 import sys
 import json
+import csv
+from io import StringIO
 # import spotipy
 # from spotipy.oauth2 import SpotifyOAuth
 # import base64
@@ -19,14 +21,33 @@ user_vector_valence = float(sys.argv[4]) / 100.0
 user_popularity =  None if sys.argv[5] == "None" else sys.argv[5]
 user_timeSignature =  None if sys.argv[8] == "None" else json.loads(sys.argv[6])
 user_key =  None if sys.argv[7] == "None" else json.loads(sys.argv[7])
-user_mode =  None if sys.argv[8] == "None" else json.loads(sys.argv[8])
+user_mode =  None if sys.argv[8] == "None" else int(json.loads(sys.argv[8])[0])
 #??????????????????????????????????????????????????????????????????????
 user_speechy =  sys.argv[9]
 user_instrumental =  None if sys.argv[10] == "None" else sys.argv[10]
 user_live =  None if sys.argv[11] == "None" else sys.argv[11]
 user_number_of_tracks = int(sys.argv[12]) if sys.argv[12].lower() != "none" else None
 user_customer_choice_genres = sys.argv[13]
-user_genres = sys.argv[14].split(',')
+user_genres = None if user_customer_choice_genres == "yes" else  sys.argv[14].split(',')
+
+variable_names = [
+    user_vector_danceability,
+    user_vector_energy,
+    user_vector_acousticness,
+    user_vector_valence,
+    user_popularity,
+    user_timeSignature,
+    user_key,
+    user_mode,
+    user_speechy,
+    user_instrumental,
+    user_live,
+    user_number_of_tracks,
+    user_customer_choice_genres,
+    user_genres
+]
+
+# print(variable_names)
 
 
 tracks_to_filter = pd.read_csv('Database/Implement/tracks_to_filter.csv')
@@ -348,7 +369,7 @@ UserFilterSettings.SPEECHY = user_speechy
 UserFilterSettings.INSTRUMENTAL = user_instrumental
 UserFilterSettings.LIVE = user_live
 UserFilterSettings.NUMBER_OF_TRACKS_IN_PLAYLIST = user_number_of_tracks
-UserFilterSettings.GENRES = None
+UserFilterSettings.GENRES = user_genres
 UserFilterSettings.CUSTOMER_CHOICE_GENRES = user_customer_choice_genres
 
 tracks_filtered = filter_tracks(
@@ -371,6 +392,7 @@ tracks_filtered = filter_tracks(
                 customer_choice_genres=UserFilterSettings.CUSTOMER_CHOICE_GENRES)
 
 
+#get playlist ids
 song_ids = np.array(tracks_filtered['track_id'])
 song_ids_list = song_ids.tolist()
 song_ids_json = json.dumps(song_ids_list)
@@ -393,4 +415,10 @@ def est_similarity(pl_mean_vec):
 pl_mean = tracks_to_vectorize[tracks_to_vectorize['track_id'].isin(tracks_filtered['track_id'])].drop('track_id',axis=1).mean()
 playlist_est_sims = est_similarity(pl_mean)
 playlist_est_sims_json = json.dumps(playlist_est_sims)
-print(json.dumps([song_ids_json, playlist_est_sims_json]))
+
+#table data
+tbl = pd.merge(left=tracks_filtered, right=tracks_to_vectorize, on='track_id')
+json_table_data = tbl.to_json(orient='records', indent=2)
+print(json.dumps([song_ids_json, playlist_est_sims_json, json_table_data]))
+
+

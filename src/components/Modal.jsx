@@ -11,7 +11,7 @@ const BaseModal = ({ isModalOpen, setIsModalOpen, children }) => {
         display={"flex"}
         flexDirection={"column"}
         alignItems={"center"}
-        sx={{ background: "#fff" }}
+        sx={{ backgroundColor: "light.main" }}
         className="absolute-center"
         borderRadius={8}
         padding={5}

@@ -14,7 +14,7 @@ const BusinessButton = ({ children, onClick, isActive }) => {
         textTransform: "capitalize",
         paddingX: 4,
         fontWeight: 600,
-        color: isActive ? "#fff" : "#000",
+        color: isActive ? "light.main" : "dark.main",
         "&:hover": {
           borderWidth: 2,
         },
@@ -48,25 +48,42 @@ const clubVectorPreset = {
 const areVectorsEqual = (v1, v2) => {
   return JSON.stringify(v1) == JSON.stringify(v2);
 };
-const Vectors = ({ playlistVectors, setPlaylistVectors, activeIcon }) => {
+const Vectors = ({
+  playlistVectors,
+  setPlaylistVectors,
+  activeIcon,
+  setFilterForm,
+}) => {
   const isSmScreen = useMediaQuery("(max-width:900px)");
 
   const [vectorType, setVectorType] = useState("Cafe");
+
+  const handleCustomerChoiceGenresChange = (newValue) => {
+    setFilterForm((oldFilterForm) => ({
+      ...oldFilterForm,
+      customerChoiceGenres: newValue,
+    }));
+  };
 
   useEffect(() => {
     let newVectorType;
     switch (JSON.stringify(playlistVectors)) {
       case JSON.stringify(barVectorPreset):
         newVectorType = "Bar";
+        handleCustomerChoiceGenresChange(true);
         break;
       case JSON.stringify(clubVectorPreset):
         newVectorType = "Club";
+        handleCustomerChoiceGenresChange(true);
         break;
       case JSON.stringify(cafeVectorPreset):
         newVectorType = "Cafe";
+        handleCustomerChoiceGenresChange(true);
         break;
       default:
         newVectorType = "Custom";
+        //if it is custom, check customize according to genre (make it false)
+        handleCustomerChoiceGenresChange(false);
     }
 
     setVectorType(newVectorType);

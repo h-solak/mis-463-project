@@ -142,10 +142,6 @@ const timeSignatureSection = {
       title: "5/4",
       value: 5,
     },
-    {
-      title: "7/4",
-      value: 7,
-    },
   ],
 };
 
@@ -233,6 +229,16 @@ const defaultGenres = [
     value: "Electronic",
     isChecked: true,
   },
+  {
+    name: "Latin",
+    value: "Latin",
+    isChecked: true,
+  },
+  {
+    name: "World/Traditional",
+    value: "World/Traditional",
+    isChecked: true,
+  },
 
   {
     name: "Jazz",
@@ -260,8 +266,18 @@ const defaultGenres = [
     isChecked: true,
   },
   {
+    name: "Country",
+    value: "Country",
+    isChecked: true,
+  },
+  {
     name: "Folk/Acoustic",
     value: "Folk/Acoustic",
+    isChecked: true,
+  },
+  {
+    name: "New Age",
+    value: "New Age",
     isChecked: true,
   },
 ];

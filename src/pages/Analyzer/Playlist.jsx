@@ -106,7 +106,7 @@ const Playlist = ({ playlist }) => {
           <Typography
             fontSize={14}
             fontWeight={600}
-            color={isTunemixGenerated ? "#fff" : ""}
+            color={isTunemixGenerated ? "light.main" : ""}
           >
             {playlist.name}
           </Typography>
@@ -117,7 +117,7 @@ const Playlist = ({ playlist }) => {
           ) : null} */}
           <Typography
             style={{ fontSize: 12 }}
-            color={isTunemixGenerated ? "#fff" : ""}
+            color={isTunemixGenerated ? "light.main" : ""}
           >
             {playlist.tracks.total} tracks
           </Typography>

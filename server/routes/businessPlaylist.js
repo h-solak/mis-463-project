@@ -51,12 +51,13 @@ router.post("/", async (req, res) => {
     if (code === 0) {
       try {
         const newResult = JSON.parse(result);
-        res
-          .status(200)
-          .json({
-            playlist: JSON.parse(newResult[0]),
-            similarity: JSON.parse(newResult[1]),
-          });
+        console.log(newResult);
+        // console.log(result);
+        res.status(200).json({
+          playlist: JSON.parse(newResult[0]),
+          similarity: JSON.parse(newResult[1]),
+          tableData: JSON.parse(newResult[2]),
+        });
       } catch (err) {
         console.log("what?", err);
         res.status(500).send(`Something went horribly wrong!`);

@@ -9,7 +9,7 @@ const ChoiceButton = ({ children, onClick, sx }) => {
       onClick={onClick}
       sx={{
         ...sx,
-        color: "#fff",
+        color: "light.main",
         fontSize: 24,
         textTransform: "capitalize",
         borderRadius: "99px",

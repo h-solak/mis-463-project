@@ -32,6 +32,9 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import useThemeModeContext from "../contexts/theme/useThemeModeContext";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 const Layout = ({ children }) => {
   const navbarRef = useRef(null);
   const isSmScreen = useMediaQuery("(max-width:900px)");
@@ -40,6 +43,7 @@ const Layout = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { user, setUser } = useUser();
+  const { themeMode, setThemeMode } = useThemeModeContext();
 
   useEffect(() => {
     if (user?.id) {
@@ -88,7 +92,14 @@ const Layout = ({ children }) => {
   };
   return (
     <>
-      <Grid container display={"flex"} justifyContent={"center"}>
+      <Grid
+        container
+        display={"flex"}
+        justifyContent={"center"}
+        sx={{
+          backgroundColor: "light.main",
+        }}
+      >
         <Grid
           item
           xs={12}
@@ -181,6 +192,39 @@ const Layout = ({ children }) => {
                     >
                       Analyze
                     </Button>
+                    <Button
+                      onClick={() => navigate("/about-us")}
+                      sx={{
+                        color:
+                          window.location.pathname.slice(1) == "about-us"
+                            ? "primary.main"
+                            : "dark.main",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      About Us
+                    </Button>
+                    {/* <Button
+                      onClick={() =>
+                        setThemeMode((oldTheme) =>
+                          oldTheme === "light" ? "dark" : "light"
+                        )
+                      }
+                      sx={{
+                        color: "dark.main",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {themeMode == "dark" ? (
+                        <DarkModeIcon />
+                      ) : (
+                        <LightModeIcon />
+                      )}
+                    </Button> */}
                     {/* <Button
                       onClick={() => navigate("/shuffle")}
                       sx={{
@@ -206,16 +250,16 @@ const Layout = ({ children }) => {
                         />
                       }
                       sx={{
-                        color: "#000",
+                        color: "dark.main",
                         textTransform: "capitalize",
                         fontWeight: 600,
                       }}
                     >
                       {user?.display_name}
                       {anchorEl ? (
-                        <ArrowDropUpIcon sx={{ color: "#000" }} />
+                        <ArrowDropUpIcon sx={{ color: "dark.main" }} />
                       ) : (
-                        <ArrowDropDownIcon sx={{ color: "#000" }} />
+                        <ArrowDropDownIcon sx={{ color: "dark.main" }} />
                       )}
                     </Button>
                   </Box>
@@ -288,7 +332,7 @@ const Layout = ({ children }) => {
               <PersonIcon
                 sx={{
                   fontSize: 22,
-                  color: "#000",
+                  color: "dark.main",
                 }}
               />
             </ListItemIcon>
@@ -320,7 +364,7 @@ const Layout = ({ children }) => {
               <LogoutIcon
                 sx={{
                   fontSize: 22,
-                  color: "#000",
+                  color: "dark.main",
                 }}
               />
             </ListItemIcon>
@@ -347,11 +391,8 @@ const Layout = ({ children }) => {
             display={"flex"}
             justifyContent={"end"}
           >
-            <IconButton>
-              <CloseIcon
-                onClick={() => setIsDrawerOpen(false)}
-                sx={{ fontSize: 28 }}
-              />
+            <IconButton onClick={() => setIsDrawerOpen(false)}>
+              <CloseIcon sx={{ fontSize: 28 }} />
             </IconButton>
           </Box>
           {user?.id ? (
@@ -401,6 +442,15 @@ const Layout = ({ children }) => {
                 }}
               >
                 <ListItemText primary="Analyze Playlists" />
+              </ListItemButton>
+              <ListItemButton
+                sx={{ textAlign: "start", paddingY: 2, paddingX: 4 }}
+                onClick={() => {
+                  navigate("/about-us");
+                  setIsDrawerOpen(false);
+                }}
+              >
+                <ListItemText primary="About Us" />
               </ListItemButton>
               <ListItemButton
                 sx={{

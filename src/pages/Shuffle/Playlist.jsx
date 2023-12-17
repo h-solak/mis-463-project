@@ -105,7 +105,7 @@ const Playlist = ({ playlist }) => {
           setIsModalOpen={setConfirmShuffleModal}
           question={"The playlist will be shuffled"}
           action={() => shuffle(playlist?.id, playlist?.name)}
-          icon={<ShuffleIcon color="#000" sx={{ fontSize: 90 }} />}
+          icon={<ShuffleIcon color="dark.main" sx={{ fontSize: 90 }} />}
         />
       </Box>
       {progress.isShuffling && (

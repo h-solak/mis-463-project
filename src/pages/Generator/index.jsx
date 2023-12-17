@@ -33,6 +33,7 @@ import CafeVectorSvg from "../../assets/svg/cafeVector.svg";
 import BarVectorSvg from "../../assets/svg/barVector.svg";
 import ClubVectorSvg from "../../assets/svg/clubVector.svg";
 import YourownVectorSvg from "../../assets/svg/yourownVector.svg";
+import GenrePieChart from "./GenrePieChart";
 
 function areObjectsEqual(obj1, obj2) {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -61,13 +62,39 @@ const Generator = () => {
   const { user, setUser } = useUser();
   const [crrStep, setCrrStep] = useState(0); //0-> form, 1-> loading/generating, 2-> completed playlist
   const [generatedPlaylist, setGeneratedPlaylist] = useState({});
+  const [tableData, setTableData] = useState({});
+  /*
+  array of obj
+   {
+    "Unnamed: 0":5071333,
+    "track_id":"5IJhLYBgah78GpBU66RJyx",
+    "artist_id":"3EysZz5xY5jXl3HiDmwBof",
+    "genre":"Rock",
+    "popularity":0,
+    "duration":142,
+    "time_signature":4,
+    "key":1,
+    "tempo":137,
+    "mode":1,
+    "loudness":-5.414,
+    "speechiness":0.038,
+    "instrumentalness":0.63,
+    "liveness":0.1,
+    "explicit":0,
+    "danceability":0.543,
+    "energy":0.915,
+    "acousticness":0.451,
+    "valence":0.895
+  },
+  
+  */
   const [celebrationIsPlaying, setCelebrationIsPlaying] = useState(false);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [activeSvg, setActiveSvg] = useState(CafeVectorSvg);
   const [playlistVectors, setPlaylistVectors] = useState(cafeVectorPreset);
   const [filterForm, setFilterForm] = useState({
     popularity: "None",
-    timeSignature: [3, 4, 5, 7],
+    timeSignature: [3, 4, 5],
     key: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     mode: "None",
     // explicit: "None",
@@ -82,12 +109,16 @@ const Generator = () => {
       "Metal",
       "Hip Hop",
       "Electronic",
+      "Latin",
+      "World/Traditional",
       "Jazz",
       "R&B",
       "Blues",
       "Easy Listening",
       "Classical",
       "Folk/Acoustic",
+      "Country",
+      "New Age",
     ],
   });
 
@@ -115,6 +146,7 @@ const Generator = () => {
     const playlistId = res?.playlistId;
     //similarities: [cafe,bar,club]
     const similarities = res?.similarity;
+    setTableData(res?.tableData);
     const newPlaylist = await getPlaylist(playlistId);
     setGeneratedPlaylist({
       playlist: newPlaylist,
@@ -142,7 +174,6 @@ const Generator = () => {
     } else {
       setActiveSvg(YourownVectorSvg);
     }
-    console.log(activeSvg);
   }, [playlistVectors]);
   return (
     <Layout>
@@ -153,6 +184,7 @@ const Generator = () => {
             playlistVectors={playlistVectors}
             setPlaylistVectors={setPlaylistVectors}
             activeIcon={activeSvg}
+            setFilterForm={setFilterForm}
           />
           <FilterForm filterForm={filterForm} setFilterForm={setFilterForm} />
           <Grid
@@ -240,11 +272,8 @@ const Generator = () => {
           display={"flex"}
           flexDirection={"column"}
           alignItems={"center"}
-          justifyContent={"space-around"}
           textAlign={"center"}
-          height={isSmScreen ? "auto" : "calc(100vh - 76px)"}
-          marginTop={isSmScreen ? 2 : 0}
-          gap={1}
+          paddingY={4}
         >
           {celebrationIsPlaying && (
             <div className="absolute-center">
@@ -365,9 +394,9 @@ const Generator = () => {
                                 : "CLUB"}{" "}
                             </Typography>
                             playlist by{" "}
-                            {(generatedPlaylist?.similarities[0] * 100).toFixed(
-                              1
-                            )}
+                            {(
+                              Math.max(...generatedPlaylist?.similarities) * 100
+                            ).toFixed(1)}
                             %
                           </>
                         ) : (
@@ -406,7 +435,7 @@ const Generator = () => {
                           }px)`}
                           sx={{
                             backgroundColor: "dark.main",
-                            color: "#fff",
+                            color: "light.main",
                           }}
                           textAlign={"start"}
                         >
@@ -425,7 +454,7 @@ const Generator = () => {
                           }px)`}
                           sx={{
                             backgroundColor: "dark.main",
-                            color: "#fff",
+                            color: "light.main",
                           }}
                           textAlign={"start"}
                         >
@@ -444,7 +473,7 @@ const Generator = () => {
                           }px)`}
                           sx={{
                             backgroundColor: "dark.main",
-                            color: "#fff",
+                            color: "light.main",
                           }}
                           textAlign={"start"}
                         >
@@ -524,19 +553,32 @@ const Generator = () => {
                     {isLinkCopied ? (
                       <CheckCircleIcon
                         sx={{
-                          color: "#000",
+                          color: "dark.main",
                         }}
                       />
                     ) : (
                       <ContentCopyIcon
                         sx={{
-                          color: "#000",
+                          color: "dark.main",
                         }}
                       />
                     )}
                   </IconButton>
                 </Grid>
               </Grid>
+            </Grid>
+            <Grid item sm={12} paddingY={3}>
+              {tableData && (
+                <GenrePieChart
+                  data={tableData?.map((item) => ({
+                    id: item?.track_id,
+                    // value: 20,
+                    genre: item?.genre,
+                  }))}
+                  // width={400}
+                  // height={200}
+                />
+              )}
             </Grid>
             <Grid item sm={12} marginTop={2}>
               <ActionButton

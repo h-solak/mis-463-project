@@ -19,7 +19,7 @@ const ConfirmDialogModal = ({
         flexDirection={"column"}
         alignItems={"center"}
         gap={3}
-        sx={{ background: "#fff" }}
+        sx={{ background: "light.main" }}
         className="absolute-center rounded"
         padding={5}
         onClick={(e) => e.stopPropagation()}
